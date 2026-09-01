@@ -1,0 +1,123 @@
+.term {
+  position: relative;
+  /* escalonado editorial: cada término entra un paso más a la derecha */
+  padding-left: calc(var(--i) * 4.6vw);
+}
+
+/* ------------------------------- SIGNO + ------------------------------- */
+/* Alineado al margen izquierdo, no al término: los tres forman columna. */
+
+.sign {
+  position: absolute;
+  left: 0;
+  top: -0.62em;
+  font-weight: 700;
+  font-size: clamp(30px, 3.2vw, 58px);
+  line-height: 1;
+  opacity: 0;
+  transform: translate3d(0, 10px, 0);
+  will-change: transform, opacity;
+}
+
+.orange {
+  color: var(--orange);
+}
+
+.blue {
+  color: #4e7be8;
+}
+
+.off {
+  color: var(--off);
+}
+
+/* ------------------------------ ENCABEZADO ----------------------------- */
+
+.head {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(10px, 1vw, 18px);
+  margin: 0;
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  will-change: transform, opacity;
+}
+
+.index {
+  font-family: var(--font-mono), monospace;
+  font-weight: 400;
+  font-size: clamp(13px, 0.95vw, 16px);
+  letter-spacing: 0.18em;
+  color: rgba(247, 246, 242, 0.55);
+  white-space: nowrap;
+}
+
+.title {
+  font-weight: 600;
+  font-size: clamp(26px, 3.4vw, 62px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  color: var(--off);
+}
+
+/* -------------------------------- ITEMS -------------------------------- */
+/* Nunca por debajo de 16px en desktop: hay que poder leerlos sin acercarse. */
+
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 clamp(10px, 0.9vw, 16px);
+  margin: clamp(10px, 1.2vh, 16px) 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(16px, 1.05vw, 19px);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(247, 246, 242, 0.8);
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+  will-change: transform, opacity;
+}
+
+.item + .item::before {
+  content: "·";
+  margin-right: clamp(10px, 0.9vw, 16px);
+  color: rgba(247, 246, 242, 0.4);
+}
+
+@media (max-width: 860px) {
+  .term {
+    padding-left: calc(var(--i) * 3.4vw);
+  }
+
+  .sign {
+    font-size: clamp(26px, 8vw, 38px);
+    top: -0.58em;
+  }
+
+  .head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .index {
+    font-size: 13px;
+  }
+
+  .title {
+    font-size: clamp(26px, 8.4vw, 38px);
+  }
+
+  .items {
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    gap: 0 10px;
+  }
+
+  .item + .item::before {
+    margin-right: 10px;
+  }
+}

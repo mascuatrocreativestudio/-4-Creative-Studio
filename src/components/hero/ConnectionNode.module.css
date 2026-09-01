@@ -1,0 +1,38 @@
+.anchor {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.label {
+  display: block;
+  font-family: var(--font-mono), monospace;
+  font-weight: 500;
+  /* +60% a 1440, +73% a 1920 respecto de --mono-size.
+     Tracking bajado de 0.2em a 0.12em: a este cuerpo el 0.2em desarmaba
+     la palabra en letras sueltas. */
+  font-size: clamp(13px, 1.15vw, 19px);
+  letter-spacing: 0.12em;
+  color: var(--off);
+  white-space: nowrap;
+  opacity: 0;
+  filter: blur(14px);
+  transform: translate3d(var(--dx), var(--dy), 0);
+  will-change: transform, opacity, filter;
+}
+
+@media (max-width: 860px) {
+  .anchor {
+    left: var(--xm);
+    top: var(--ym);
+  }
+  .label {
+    /* +34% en mobile: menos margen que en desktop antes de colisionar */
+    font-size: clamp(10px, 3.1vw, 13px);
+    letter-spacing: 0.08em;
+    /* menos radio de blur estático que animar en pantallas chicas */
+    filter: blur(9px);
+  }
+}

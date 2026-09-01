@@ -1,0 +1,287 @@
+/* ---------------------------------------------------------------------------
+   ESCENA 04 — MEZCLA → TRANSFORMACIÓN
+
+   Cuatro láminas editoriales entran desde fuera del viewport, se acercan, se
+   superponen y terminan formando UNA sola composición que después se comporta
+   como un único objeto. La sección no explica nada con tipografía: la única
+   frase grande aparece al final, cuando las imágenes ya se retiraron.
+
+   COSTURA Y CIERRE — misma aritmética que Hero → MEZCLA, un escalón abajo.
+   MEZCLA mide 470svh con stage sticky de 100svh: se despega en scroll 370svh.
+   Esta sección arranca exactamente ahí (margin-top: -100svh), así que su stage
+   se pega en el MISMO frame en el que el de MEZCLA se suelta. Durante ese
+   solape las dos cajas conviven y el stage de acá (z-index 3) tapa al de
+   MEZCLA (z-index 2) redibujando su último frame: no hay ni un pixel de body
+   vacío entre las dos escenas, ni bajando ni subiendo.
+
+   410svh − 100svh de solape = 310svh netos (mobile: 380 − 100 = 280svh).
+   Son ocho láminas: entran, se dispersan, se enganchan y se quedan quietas
+   catorce unidades de timeline. Ese rato de permanencia es el motivo de la
+   altura — sin él el collage no se llega a mirar.
+
+   El final de la timeline se calcula en píxeles reales sobre el DOM
+   (offsetHeight de la sección − offsetHeight del stage). No usa end:"max": el
+   timing no depende del alto del documento, así que sumar FOCO abajo no mueve
+   ni un frame de esta escena. Y como hoy es la última, el scroll máximo cae
+   justo donde el stage se despega: DEL SISTEMA AL RESULTADO queda en pantalla
+   hasta el último pixel.
+   --------------------------------------------------------------------------- */
+
+.transformation {
+  position: relative;
+  /* por encima de .mix (z-index 2): durante el solape este stage tapa el
+     cierre de MEZCLA. Sin background propio — un rectángulo opaco acá se
+     pintaría sobre el stage de MEZCLA antes de tiempo. El ink lo pone body. */
+  z-index: 3;
+  width: 100%;
+  height: 410svh;
+  margin-top: -100svh;
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  /* recorta las láminas mientras todavía están fuera de cuadro */
+  overflow: hidden;
+  isolation: isolate;
+  background-color: var(--ink);
+  /* Durante el solape su posición natural cae dentro del viewport y taparía
+     el final de MEZCLA por abajo. ScrollTrigger le pone .isLive en el frame
+     exacto en que se pega. */
+  visibility: hidden;
+}
+
+.isLive {
+  visibility: visible;
+}
+
+/* ------------------------- FONDO HEREDADO DE MEZCLA ------------------------ */
+/* Mismo universo, sin una cuarta identidad visual. La temperatura de la escena
+   la cambian las propias láminas (azules, rojos, verdes), no un fondo nuevo. */
+
+.atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  will-change: opacity;
+}
+
+/* Grano + scrims de MEZCLA, agrupados para poder retirarlos de una sola vez
+   en movimiento reducido. Las clases vienen del módulo de MEZCLA: importarlas
+   en vez de copiarlas es lo único que garantiza que la costura no derive. */
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ------------------------ ECO: ÚLTIMO FRAME DE MEZCLA ---------------------- */
+
+.echo {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* -------------------------------- EL CLUSTER ------------------------------- */
+/* Contenedor de las cuatro láminas. En el tercer acto deja de ser un contenedor
+   pasivo: toma una transform propia y el grupo entero pasa a moverse como un
+   solo objeto, que es exactamente la idea de la escena. */
+
+.cluster {
+  /* ocho piezas en un viewport. 18,5vw: lo suficiente para que se toquen de
+     verdad entre bandas —a 17vw quedaban huecos adentro del collage— sin que
+     el conjunto llegue a los bordes. */
+  --piece-w: clamp(170px, 18.5vw, 310px);
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  will-change: transform;
+}
+
+/* Capa propia para los labels, por encima de las cuatro láminas y con la MISMA
+   transform que el cluster (se la aplica el mismo tween, así que no pueden
+   desincronizarse). Vive afuera porque cada lámina crea su contexto de apilado:
+   un label hijo jamás podría dibujarse por delante de la lámina de al lado. */
+.labels {
+  --piece-w: clamp(170px, 18.5vw, 310px);
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.piece {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: var(--z, 1);
+  /* centrada por margen y no por translate: la transform es toda de GSAP */
+  width: var(--piece-w);
+  margin: calc(var(--piece-w) * -0.625) 0 0 calc(var(--piece-w) / -2);
+  will-change: transform;
+}
+
+.pieceMedia {
+  display: block;
+  /* la lámina como objeto físico: sombra para que se despeguen entre sí
+     cuando se superponen, y un filo mínimo contra el fondo oscuro */
+  box-shadow:
+    0 0 0 1px rgba(247, 246, 242, 0.07),
+    0 30px 70px -26px rgba(0, 0, 0, 0.85);
+  will-change: transform;
+}
+
+.pieceImg {
+  display: block;
+  width: 100%;
+  /* height:auto + sin object-fit = la caja toma la forma de la imagen.
+     La lámina NUNCA se recorta: si algo la tapa, es otra lámina. */
+  height: auto;
+}
+
+.pieceLabel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: 0;
+  white-space: nowrap;
+  font-family: var(--font-mono), monospace;
+  /* V2.1: ~+55% sobre el tamaño anterior (clamp(10px, 0.78vw, 13px)). El label
+     tiene que ganarle a la fotografía sin volverse titular. Peso 500 —el otro
+     que trae IBM Plex Mono— y menos tracking, que al agrandar separaba de más. */
+  font-size: clamp(15px, 1.25vw, 21px);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(247, 246, 242, 0.92);
+  /* En la cascada de mobile un label puede caer sobre la lámina de abajo.
+     Una sombra y no una caja: mantiene la legibilidad sin ensuciar el collage. */
+  text-shadow: 0 1px 8px rgba(9, 11, 16, 0.95);
+  will-change: transform, opacity;
+}
+
+/* ---------------------------------- PAYOFF --------------------------------- */
+/* La única intervención tipográfica grande de toda la sección. Después de una
+   escena dominada por imágenes, la tipografía vuelve a pegar. */
+
+.payoff {
+  position: absolute;
+  left: var(--gutter);
+  top: 34svh;
+  z-index: 9;
+  margin: 0;
+  width: min(76vw, 1180px);
+  color: var(--off);
+  font-weight: 700;
+  font-size: clamp(46px, 7.2vw, 140px);
+  line-height: 0.9;
+  letter-spacing: -0.048em;
+  text-transform: uppercase;
+}
+
+.payoff span {
+  display: block;
+  opacity: 0;
+  transform: translate3d(0, 30px, 0);
+  will-change: transform, opacity;
+}
+
+/* --------------------------------- MOBILE ---------------------------------- */
+/* No es el collage de desktop encogido: las láminas ocupan más ancho relativo
+   (55–68vw) y la composición se vuelve una cascada vertical. */
+
+@media (max-width: 860px) {
+  .transformation {
+    height: 380svh;
+  }
+
+  .cluster,
+  .labels {
+    /* 36vw: las bandas se tocan sin que la cascada se vuelva una pila */
+    --piece-w: clamp(115px, 36vw, 190px);
+  }
+
+  .pieceLabel {
+    /* nunca por debajo de 15px reales, y menos tracking para que
+       [DISTRIBUCIÓN] siga entrando entero en 390px */
+    font-size: 15px;
+    letter-spacing: 0.1em;
+  }
+
+  .payoff {
+    top: 30svh;
+    width: calc(100% - (var(--gutter) * 2));
+    font-size: clamp(34px, 10.6vw, 62px);
+  }
+}
+
+/* -------------------- PREFERS-REDUCED-MOTION: sin pin --------------------- */
+/* El collage deja de ser una coreografía y se convierte en lo que las cuatro
+   piezas ya son por su cuenta: una secuencia de láminas editoriales. */
+
+.transformation[data-reduced="true"] {
+  height: auto;
+  margin-top: 0;
+}
+
+.transformation[data-reduced="true"] .stage {
+  visibility: visible;
+  position: relative;
+  height: auto;
+  overflow: visible;
+  padding: clamp(80px, 12vh, 150px) 0 clamp(60px, 10vh, 120px);
+}
+
+.transformation[data-reduced="true"] .atmosphere,
+.transformation[data-reduced="true"] .backdrop,
+.transformation[data-reduced="true"] .echo,
+.transformation[data-reduced="true"] [data-tf-mark] {
+  display: none;
+}
+
+.transformation[data-reduced="true"] .labels {
+  display: none;
+}
+
+.transformation[data-reduced="true"] .cluster {
+  position: relative;
+  inset: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(36px, 6vh, 72px);
+  margin: 0 var(--gutter);
+  transform: none;
+}
+
+.transformation[data-reduced="true"] .piece {
+  position: relative;
+  left: auto;
+  top: auto;
+  width: min(100%, 420px);
+  margin: 0;
+  transform: none;
+  opacity: 1;
+}
+
+.transformation[data-reduced="true"] .pieceMedia {
+  transform: none;
+}
+
+.transformation[data-reduced="true"] .payoff {
+  position: relative;
+  left: auto;
+  top: auto;
+  width: auto;
+  margin: clamp(56px, 10vh, 120px) var(--gutter) 0;
+}
+
+.transformation[data-reduced="true"] .payoff span {
+  opacity: 1;
+  transform: none;
+}

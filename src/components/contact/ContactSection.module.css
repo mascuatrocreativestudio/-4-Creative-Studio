@@ -1,0 +1,155 @@
+/* ---------------------------------------------------------------------------
+   CIERRE — CTA
+
+   Sección normal. Sin sticky, sin ScrollTrigger, sin timeline, sin scroll
+   jacking: después de cuatro escenas coreografiadas, el final tiene que ser
+   un lugar donde quedarse quieto.
+
+   Hereda el universo claro de FOCO para que el corte no exista: FOCO termina
+   en off-white y esto empieza en off-white.
+   --------------------------------------------------------------------------- */
+
+.contact {
+  position: relative;
+  /* por encima de .focus (z-index 4) */
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  min-height: 100svh;
+  padding: clamp(90px, 15vh, 170px) var(--gutter) clamp(40px, 7vh, 80px);
+  background-color: var(--off);
+  color: var(--ink);
+}
+
+.inner {
+  width: 100%;
+  max-width: 1240px;
+}
+
+.headline {
+  margin: 0;
+  font-weight: 700;
+  font-size: clamp(38px, 6.4vw, 118px);
+  line-height: 0.94;
+  letter-spacing: -0.048em;
+  text-transform: uppercase;
+}
+
+.headline span {
+  display: block;
+}
+
+.sub {
+  margin: clamp(20px, 3.4vh, 40px) 0 0;
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(12px, 0.95vw, 16px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(9, 11, 16, 0.6);
+}
+
+/* ---------------------------------- CTA ------------------------------------ */
+/* Rectángulo editorial de borde fino. En hover se invierte: fondo ink, texto
+   cream. Sin pill, sin glow, sin bounce. */
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+  margin-top: clamp(38px, 6.5vh, 76px);
+  padding: clamp(16px, 1.5vw, 22px) clamp(26px, 2.6vw, 44px);
+  border: 1px solid rgba(9, 11, 16, 0.55);
+  border-radius: 2px;
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(13px, 1.05vw, 17px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink);
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    color 0.35s ease,
+    transform 0.35s ease;
+}
+
+.ctaArrow {
+  font-style: normal;
+  transition: transform 0.35s ease;
+}
+
+@media (hover: hover) {
+  .cta:hover {
+    background-color: var(--ink);
+    border-color: var(--ink);
+    color: var(--off);
+    /* 2px: se nota que responde, no se nota como animación */
+    transform: translateY(-2px);
+  }
+
+  .cta:hover .ctaArrow {
+    transform: translate3d(2px, -2px, 0);
+  }
+}
+
+.cta:active {
+  background-color: var(--ink);
+  border-color: var(--ink);
+  color: var(--off);
+  transform: translateY(0);
+}
+
+/* ------------------------------- SECUNDARIO -------------------------------- */
+/* Jerarquía claramente inferior al CTA: no es otro botón. */
+
+.instagram {
+  display: inline-block;
+  margin-top: clamp(26px, 4.5vh, 52px);
+  padding-bottom: 3px;
+  border-bottom: 1px solid rgba(9, 11, 16, 0.25);
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(11px, 0.85vw, 14px);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(9, 11, 16, 0.62);
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.instagram:hover {
+  color: var(--ink);
+  border-bottom-color: rgba(9, 11, 16, 0.6);
+}
+
+/* --------------------------------- FIRMA ----------------------------------- */
+/* El +4 sigue presente pero discreto. El SVG es blanco: brightness(0) lo lleva
+   a ink sin invertir tonos ni tocar el archivo. */
+
+.mark {
+  width: clamp(34px, 3.4vw, 52px);
+  margin-top: clamp(52px, 9vh, 110px);
+  filter: brightness(0);
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+@media (max-width: 860px) {
+  .contact {
+    min-height: 100svh;
+    padding-top: clamp(80px, 13vh, 130px);
+  }
+
+  .headline {
+    font-size: clamp(34px, 10.4vw, 60px);
+  }
+
+  .cta {
+    /* el botón es el elemento accionable del cierre: no puede quedar
+       más chico que el copy secundario que tiene al lado */
+    padding: 18px 30px;
+    font-size: 14px;
+    letter-spacing: 0.16em;
+  }
+}

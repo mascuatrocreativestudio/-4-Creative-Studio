@@ -1,0 +1,54 @@
+.root {
+  display: block;
+  color: #fff;
+  line-height: 1;
+}
+
+.img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.mark {
+  width: 100%;
+}
+
+/* Solo se aplica si el SVG no trae dimensiones intrínsecas: le damos una caja
+   y lo contenemos sin recortar. Un SVG bien exportado nunca entra acá, así que
+   no cambia el render del Hero. --brand-ratio permite ajustarlo si el símbolo
+   real no es cuadrado. */
+.boxed {
+  aspect-ratio: var(--brand-ratio, 1);
+}
+
+.boxed .img {
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.lockup {
+  width: auto;
+}
+
+.lockup .img {
+  width: auto;
+  height: 100%;
+}
+
+/* Placeholder mientras no existan los SVG */
+.fallback {
+  font-family: var(--font-archivo), sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.lockup.fallback {
+  font-family: var(--font-mono), monospace;
+  font-weight: 500;
+  font-size: var(--mono-size);
+  letter-spacing: var(--track);
+}

@@ -1,0 +1,410 @@
+/* ---------------------------------------------------------------------------
+   ESCENA 03 — CONEXIÓN → MEZCLA
+   Ecuación tipográfica sobre el MISMO universo del Hero. Sin cream, sin cards,
+   sin superficies opacas. Lo único gráfico son los signos +.
+
+   COSTURA Y CIERRE
+   El Hero mide 320svh con stage sticky de 100svh: se despega en scroll 220svh.
+   Esta sección arranca ahí (margin-top: -100svh), así que su stage se pega en
+   el mismo frame. Toda la aritmética está en svh en las DOS secciones: mezclar
+   svh con vh desfasa el despegue y deja ver las dos escenas a la vez.
+
+   470svh − 100svh de solape = 370svh netos (mobile: 410 − 100 = 310svh).
+   El final de la timeline se calcula en píxeles reales sobre el DOM
+   (offsetHeight de la sección − offsetHeight del stage), no en svh declarados
+   ni contra el scroll máximo del documento: el último frame cae exacto donde
+   el stage se despega, y TRANSFORMACIÓN entra ahí con el mismo solape de
+   100svh. Agregar secciones abajo no mueve ni un frame de esta escena.
+   --------------------------------------------------------------------------- */
+
+.mix {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 470svh;
+  /* El solape físico con el Hero. Durante estos 100svh la caja de .mix ya está
+     dentro del viewport pero su stage todavía no se pegó, así que .mix TIENE
+     QUE SER TRANSPARENTE: cualquier background acá se pinta por encima del
+     stage del Hero (z-index 2 vs auto) y lo tapa con un rectángulo opaco que
+     avanza de abajo hacia arriba. Eso era la pantalla negra. El ink de fondo
+     ya lo pone html/body. */
+  margin-top: -100svh;
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  background-color: var(--ink);
+  /* Durante el solape su posición natural cae dentro del viewport y taparía
+     el final de CONEXIÓN. ScrollTrigger le pone .isLive en el frame exacto
+     en que se pega, y onLeave lo deja visible: al cerrar no se apaga, lo tapa
+     el stage de TRANSFORMACIÓN (z-index 3). */
+  visibility: hidden;
+}
+
+.isLive {
+  visibility: visible;
+}
+
+/* ------------------- fondo: exactamente el de CONEXIÓN ------------------- */
+
+.grain {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.16;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(to top, rgba(9, 11, 16, 0.62), rgba(9, 11, 16, 0) 46%),
+    linear-gradient(to bottom, rgba(9, 11, 16, 0.34), rgba(9, 11, 16, 0) 28%);
+}
+
+.focusScrim {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 50% 50%, rgba(9, 11, 16, 0.28) 0%, rgba(9, 11, 16, 0.72) 100%);
+}
+
+/* Capa de legibilidad: un gradiente integrado al fondo, no una caja.
+   Sin blur, sin backdrop, sin borde. Solo baja el ruido bajo la columna. */
+.textScrim {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    96deg,
+    rgba(9, 11, 16, 0.7) 0%,
+    rgba(9, 11, 16, 0.46) 38%,
+    rgba(9, 11, 16, 0.14) 70%,
+    rgba(9, 11, 16, 0) 100%
+  );
+}
+
+/* ----------------------------- RED HEREDADA ----------------------------- */
+
+.network {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  transform-origin: 50% 46%;
+  will-change: transform;
+}
+
+.lines,
+.nodes {
+  position: absolute;
+  inset: 0;
+}
+
+.lines {
+  will-change: opacity;
+}
+
+.nodes {
+  z-index: 1;
+}
+
+.inherited {
+  position: absolute;
+  left: var(--gutter);
+  bottom: clamp(30px, 6vh, 68px);
+  z-index: 6;
+  width: min(760px, 66vw);
+  margin: 0;
+  will-change: transform, opacity;
+}
+
+.inheritedA {
+  display: block;
+  opacity: 0.75;
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(11px, 0.92vw, 14px);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(245, 238, 228, 0.75);
+  margin-bottom: clamp(14px, 2vh, 22px);
+}
+
+.inheritedB {
+  display: block;
+  font-weight: 600;
+  font-size: clamp(1.6rem, 3.6vw, 3.1rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+/* ------------------------------ +4 (ancla) ------------------------------ */
+
+.markWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  display: grid;
+  place-items: center;
+  padding-bottom: 8vh;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.markInner {
+  width: clamp(190px, 21vw, 360px);
+  will-change: transform, opacity;
+}
+
+/* ---------------------- PRIMER FRAME DE MEZCLA ---------------------- */
+/* Todo off-white sobre el fondo oscuro. Ningún texto oscuro en esta escena. */
+
+.word {
+  position: absolute;
+  left: var(--gutter);
+  top: 40svh;
+  z-index: 8;
+  margin: 0;
+  opacity: 0;
+  color: var(--off);
+  font-weight: 700;
+  font-size: clamp(72px, 11vw, 190px);
+  line-height: 0.86;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform-origin: 0 0;
+  will-change: transform, opacity;
+}
+
+.claimA,
+.claimB {
+  position: absolute;
+  left: var(--gutter);
+  z-index: 8;
+  margin: 0;
+  opacity: 0;
+  width: min(820px, 74vw);
+  will-change: transform, opacity;
+}
+
+.claimA {
+  top: 62svh;
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(16px, 1.05vw, 19px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(247, 246, 242, 0.82);
+  transform: translate3d(0, 12px, 0);
+}
+
+.claimB {
+  top: 68svh;
+  font-weight: 600;
+  font-size: clamp(24px, 2.6vw, 44px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--off);
+  transform: translate3d(0, 16px, 0);
+}
+
+/* ------------------------------- ECUACIÓN ------------------------------- */
+
+.equation {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  top: 25svh;
+  bottom: 12svh;
+  z-index: 8;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.resultRow {
+  position: relative;
+}
+
+.resultRule {
+  width: min(420px, 34vw);
+  height: 1px;
+  margin-bottom: clamp(14px, 2vh, 26px);
+  background-color: rgba(247, 246, 242, 0.38);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  will-change: transform;
+}
+
+.result {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(12px, 1.2vw, 24px);
+  margin: 0;
+}
+
+.equals {
+  font-weight: 700;
+  /* jerarquía: por debajo de los títulos de disciplina (clamp(26px,3vw,52px))
+     y muy por encima del microcopy (clamp(16px,1.05vw,19px)) */
+  font-size: clamp(24px, 2.6vw, 44px);
+  line-height: 1;
+  color: var(--orange);
+  opacity: 0;
+  transform: translate3d(0, 10px, 0);
+  will-change: transform, opacity;
+}
+
+.resultText {
+  font-weight: 700;
+  font-size: clamp(24px, 2.6vw, 44px);
+  line-height: 1;
+  letter-spacing: -0.038em;
+  text-transform: uppercase;
+  color: var(--off);
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  will-change: transform, opacity;
+}
+
+/* --------------------------------- MOBILE -------------------------------- */
+
+@media (max-width: 860px) {
+  .mix {
+    height: 410svh;
+  }
+
+  .scrim {
+    background:
+      linear-gradient(to top, rgba(9, 11, 16, 0.72), rgba(9, 11, 16, 0) 52%),
+      linear-gradient(to bottom, rgba(9, 11, 16, 0.42), rgba(9, 11, 16, 0) 24%);
+  }
+
+  .textScrim {
+    background: linear-gradient(
+      180deg,
+      rgba(9, 11, 16, 0.3) 0%,
+      rgba(9, 11, 16, 0.58) 40%,
+      rgba(9, 11, 16, 0.66) 100%
+    );
+  }
+
+  .inherited {
+    width: calc(100% - (var(--gutter) * 2));
+    bottom: clamp(72px, 12vh, 120px);
+  }
+
+  .inheritedB {
+    font-size: clamp(1.4rem, 7.4vw, 2.2rem);
+  }
+
+  .markWrap {
+    padding-bottom: 6vh;
+  }
+
+  .markInner {
+    width: clamp(150px, 46vw, 280px);
+  }
+
+  .word {
+    top: 45svh;
+    font-size: clamp(46px, 15vw, 72px);
+  }
+
+  .claimA {
+    top: 62svh;
+    width: calc(100% - (var(--gutter) * 2));
+    font-size: 14px;
+    letter-spacing: 0.1em;
+  }
+
+  .claimB {
+    top: 68svh;
+    width: calc(100% - (var(--gutter) * 2));
+    font-size: clamp(22px, 6.6vw, 30px);
+  }
+
+  .equation {
+    top: 28svh;
+    bottom: 10svh;
+  }
+
+  .resultRule {
+    width: 60%;
+  }
+
+  .equals,
+  .resultText {
+    font-size: clamp(22px, 6.6vw, 30px);
+  }
+}
+
+/* ------------------ PREFERS-REDUCED-MOTION: sin pin ------------------- */
+
+.mix[data-reduced="true"] {
+  height: auto;
+  margin-top: 0;
+}
+
+.mix[data-reduced="true"] .stage {
+  visibility: visible;
+  position: relative;
+  height: auto;
+  min-height: 100svh;
+  padding: clamp(90px, 14vh, 160px) 0 clamp(48px, 8vh, 96px);
+}
+
+.mix[data-reduced="true"] .network,
+.mix[data-reduced="true"] .inherited,
+.mix[data-reduced="true"] .markWrap {
+  display: none;
+}
+
+.mix[data-reduced="true"] .word,
+.mix[data-reduced="true"] .claimA,
+.mix[data-reduced="true"] .claimB,
+.mix[data-reduced="true"] .equation {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  margin-left: var(--gutter);
+  margin-right: var(--gutter);
+  width: auto;
+  transform: none;
+}
+
+.mix[data-reduced="true"] .word {
+  margin-bottom: clamp(20px, 3vh, 36px);
+  white-space: normal;
+}
+
+.mix[data-reduced="true"] .claimA {
+  margin-bottom: 12px;
+}
+
+.mix[data-reduced="true"] .claimB {
+  margin-bottom: clamp(36px, 6vh, 72px);
+}
+
+.mix[data-reduced="true"] .equation {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 4.5vh, 56px);
+}
