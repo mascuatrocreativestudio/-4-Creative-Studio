@@ -70,6 +70,24 @@ function sceneScrollTop(target: SceneTarget): number | null {
   return Math.round(box.offsetTop + distance * target.progress());
 }
 
+/**
+ * Corre el callback cuando el layout ya se estabilizó, una sola vez.
+ *
+ * El setTimeout no es un delay de cortesía sino una red: si rAF está suspendido
+ * —pestaña en segundo plano, webview throttleada— un rAF que nunca dispara
+ * dejaría la navegación muerta sin ningún síntoma. Gana el que llegue primero.
+ */
+function onNextFrame(run: () => void) {
+  let ran = false;
+  const once = () => {
+    if (ran) return;
+    ran = true;
+    run();
+  };
+  requestAnimationFrame(once);
+  window.setTimeout(once, 0);
+}
+
 /** ScrollTrigger ya escucha el scroll; esto sólo cierra el frame final. */
 function syncScrollTriggerAfterScroll() {
   const sync = () => ScrollTrigger.update();
@@ -92,20 +110,39 @@ export default function Header() {
      intactos. Sólo interceptamos los dos que apuntan a una escena, y sólo si
      pudimos resolver su destino. */
   const navigateToScene = useCallback((event: MouseEvent<HTMLAnchorElement>, link: NavLink) => {
-    setOpen(false);
-    if (link.external) return;
+    if (link.external) {
+      setOpen(false);
+      return;
+    }
 
     const target = SCENE_TARGETS[link.href];
-    if (!target) return;
-
-    const top = sceneScrollTop(target);
-    if (top === null) return;
+    /* Si la escena no está montada dejamos el comportamiento nativo del <a>:
+       preferimos un link inerte antes que uno que intercepta y no hace nada. */
+    if (!target || !document.querySelector(target.anchor)) {
+      setOpen(false);
+      return;
+    }
 
     event.preventDefault();
+    setOpen(false);
+
+    /* El panel mobile bloquea el scroll con overflow:hidden en el body. Cerrarlo
+       es estado de React, así que en el frame del click el lock TODAVÍA está
+       puesto y el browser descarta el scrollTo — ese era el bug en mobile: el
+       destino se calculaba bien, pero el scroll no ocurría nunca. Lo soltamos
+       acá mismo en lugar de esperar al cleanup del effect. */
+    document.body.style.overflow = "";
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    window.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
-    syncScrollTriggerAfterScroll();
+
+    /* Y medimos recién con el layout estabilizado: con el lock liberado y el
+       panel cerrado, la geometría del ScrollTrigger ya es la definitiva. */
+    onNextFrame(() => {
+      const top = sceneScrollTop(target);
+      if (top === null) return;
+      window.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
+      syncScrollTriggerAfterScroll();
+    });
   }, []);
 
   useIsomorphicLayoutEffect(() => {
