@@ -76,3 +76,20 @@ export const CONNECTION_EDGES: Array<[string, string]> = [
   ["pauta", "marca"],
   ["contenido", "negocio"],
 ];
+
+/**
+ * Origen público del sitio.
+ *
+ * Sólo lo usa `metadataBase` para resolver a absolutas las URLs que Open Graph
+ * y las social cards exigen absolutas. No se declara canonical en ningún lado:
+ * este dominio es TEMPORAL y no queremos que quede fijado como la URL canónica.
+ *
+ * ⚠️ Al conectar el dominio definitivo se cambia ACÁ y en ningún otro archivo.
+ */
+export const SITE_URL = "https://4-creative-studio.vercel.app";
+
+/** Copy de metadata. Vive acá para no repetirse entre layout, OG y social. */
+export const SITE_NAME = "+4 Creative Studio";
+export const SITE_TITLE = "+4 Creative Studio — Hacemos que tu marca entre en foco";
+export const SITE_DESCRIPTION =
+  "Estudio creativo de estrategia, identidad, contenido, pauta, web y desarrollo comercial para marcas que quieren crecer con un sistema.";
