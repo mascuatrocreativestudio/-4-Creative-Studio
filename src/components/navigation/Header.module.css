@@ -96,13 +96,31 @@
   .panel {
     position: fixed;
     inset: 0;
-    z-index: -1;
+    /* El panel se monta en <body> por portal, no dentro del <header>: si vive
+       dentro y el header lleva cualquier transform —la animación de entrada le
+       deja uno inline—, ese header pasa a ser el bloque contenedor de este
+       fixed e inset:0 deja de significar el viewport. Fuera de ahí no hay
+       ancestro que pueda re-anclarlo.
+
+       z-index 19 reproduce el apilado de antes: debajo del header (20), así el
+       lockup y CERRAR siguen leyéndose encima, y arriba de las secciones (2-5). */
+    z-index: 19;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     gap: 28px;
+    min-height: 100vh;
+    min-height: 100dvh;
     padding: var(--gutter);
-    padding-bottom: clamp(40px, 10vh, 80px);
+    /* Deja libre la franja del header y respeta las safe areas. Como el
+       contenido está anclado abajo, en un teléfono normal no cambia nada:
+       sólo evita que se meta bajo el notch si algún día crece. */
+    padding-top: calc(env(safe-area-inset-top, 0px) + clamp(72px, 14vh, 104px));
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(40px, 10vh, 80px));
+    /* Red para pantallas muy bajas; contain evita que el scroll se encadene al
+       fondo, que queda bloqueado a propósito mientras el menú está abierto. */
+    overflow-y: auto;
+    overscroll-behavior: contain;
     background-color: var(--ink);
     background-image: radial-gradient(90% 60% at 20% 100%, rgba(255, 117, 36, 0.28), rgba(9, 11, 16, 0) 70%),
       radial-gradient(80% 50% at 100% 0%, rgba(39, 72, 159, 0.32), rgba(9, 11, 16, 0) 70%);

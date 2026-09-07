@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
+import { createPortal } from "react-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
@@ -105,13 +106,25 @@ function linkProps(link: NavLink) {
 export default function Header() {
   const rootRef = useRef<HTMLElement | null>(null);
   const [open, setOpen] = useState(false);
+  /* El panel se portalea a <body>, y eso no existe en el render del servidor. */
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  /* Cierra el panel y suelta el lock en el mismo frame. Cerrar es estado de
+     React y el cleanup del effect corre recién en el commit siguiente; nada que
+     dependa de poder scrollear —o de no dejar el body bloqueado al salir a
+     WhatsApp o a Instagram— puede esperar a ese commit. */
+  const closeMenu = useCallback(() => {
+    setOpen(false);
+    document.body.style.overflow = "";
+  }, []);
 
   /* Los links siguen siendo <a href> reales: teclado, foco y menú contextual
      intactos. Sólo interceptamos los dos que apuntan a una escena, y sólo si
      pudimos resolver su destino. */
   const navigateToScene = useCallback((event: MouseEvent<HTMLAnchorElement>, link: NavLink) => {
     if (link.external) {
-      setOpen(false);
+      closeMenu();
       return;
     }
 
@@ -119,19 +132,17 @@ export default function Header() {
     /* Si la escena no está montada dejamos el comportamiento nativo del <a>:
        preferimos un link inerte antes que uno que intercepta y no hace nada. */
     if (!target || !document.querySelector(target.anchor)) {
-      setOpen(false);
+      closeMenu();
       return;
     }
 
     event.preventDefault();
-    setOpen(false);
 
-    /* El panel mobile bloquea el scroll con overflow:hidden en el body. Cerrarlo
-       es estado de React, así que en el frame del click el lock TODAVÍA está
-       puesto y el browser descarta el scrollTo — ese era el bug en mobile: el
-       destino se calculaba bien, pero el scroll no ocurría nunca. Lo soltamos
-       acá mismo en lugar de esperar al cleanup del effect. */
-    document.body.style.overflow = "";
+    /* El panel mobile bloquea el scroll con overflow:hidden en el body. Si el
+       lock sigue puesto cuando llamamos a scrollTo, el browser lo descarta —ése
+       era el bug en mobile: el destino se calculaba bien pero el scroll no
+       ocurría nunca—, así que closeMenu lo suelta en este mismo frame. */
+    closeMenu();
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -172,6 +183,34 @@ export default function Header() {
     };
   }, [open]);
 
+  /* Mismo markup y mismas clases que antes; lo único que cambia es dónde se
+     monta: en <body>, para que ningún transform de un ancestro lo re-ancle. */
+  const panel = (
+    <div
+      id="menu-panel"
+      className={styles.panel}
+      data-open={open ? "true" : undefined}
+      hidden={!open}
+    >
+      <ul className={styles.panelList}>
+        {NAV_LINKS.map((link) => (
+          <li key={link.label}>
+            <a
+              className={styles.panelLink}
+              {...linkProps(link)}
+              onClick={(event) => navigateToScene(event, link)}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a className={styles.panelCta} {...linkProps(CTA_LINK)} onClick={closeMenu}>
+        {CTA_LINK.label}
+      </a>
+    </div>
+  );
+
   return (
     <header ref={rootRef} className={styles.header}>
       <a className={styles.brand} href="/" aria-label="+4 Creative Studio — inicio">
@@ -208,29 +247,7 @@ export default function Header() {
         {open ? "Cerrar" : "Menú"}
       </button>
 
-      <div
-        id="menu-panel"
-        className={styles.panel}
-        data-open={open ? "true" : undefined}
-        hidden={!open}
-      >
-        <ul className={styles.panelList}>
-          {NAV_LINKS.map((link) => (
-            <li key={link.label}>
-              <a
-                className={styles.panelLink}
-                {...linkProps(link)}
-                onClick={(event) => navigateToScene(event, link)}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-        <a className={styles.panelCta} {...linkProps(CTA_LINK)} onClick={() => setOpen(false)}>
-          {CTA_LINK.label}
-        </a>
-      </div>
+      {mounted ? createPortal(panel, document.body) : null}
     </header>
   );
 }
