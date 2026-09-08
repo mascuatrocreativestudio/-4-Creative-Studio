@@ -24,7 +24,7 @@ export default function ContactSection() {
             rodea ni le recorta la columna — se posiciona sobre el vacío. */}
         <div className={styles.row}>
           <h2 className={styles.headline} id="contact-title">
-            <span>Tu marca puede</span>
+            <span>Tu marca podria</span>
             <span>estar haciendo más.</span>
           </h2>
 

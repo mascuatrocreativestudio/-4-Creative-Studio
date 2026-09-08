@@ -44,6 +44,7 @@ const LINE_START = { desktop: 0.45, mobile: 0.35 };
 
 /** Progreso de scroll a partir del cual el Header pasa a su estado claro. */
 const SURFACE_AT = 0.5;
+export const FOCUS_VISIBLE_PROGRESS = 0.93;
 
 export default function FocusSection() {
   const rootRef = useRef<HTMLElement | null>(null);
@@ -269,8 +270,8 @@ export default function FocusSection() {
             cuánto de él deja ver el recorte. */}
         <div className={styles.light} data-focus-light>
           <p className={styles.statement} data-statement>
-            <span>No medimos lo que hacemos.</span>
-            <span>Miramos lo que mueve.</span>
+            <span>Medimos lo que hacemos</span>
+            <span>Y escalamos lo que vende.</span>
           </p>
 
           <ul className={styles.results}>
@@ -286,7 +287,7 @@ export default function FocusSection() {
               <i className={styles.plus} aria-hidden="true">
                 +
               </i>
-              Resultados.
+              Resultados para tu negocio.
             </span>
           </h2>
         </div>

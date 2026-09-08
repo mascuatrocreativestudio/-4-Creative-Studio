@@ -59,7 +59,7 @@ const WORD_AT = 10;
 const WORD_DURATION = 14;
 
 /** Progreso del timeline en el que MEZCLA ya está en pantalla. Lo lee el Header. */
-export const MIX_VISIBLE_PROGRESS = (WORD_AT + WORD_DURATION) / 100;
+export const MIX_VISIBLE_PROGRESS = 0.33;
 
 /** Los nodos se apagan en orden inverso al que se construyeron en CONEXIÓN. */
 const FADE_ORDER = [...CONNECTION_NODES].reverse();
@@ -355,7 +355,7 @@ export default function MixSection() {
           No trabajamos áreas aisladas.
         </p>
         <p className={styles.claimB} data-claim="2">
-          Diseñamos un sistema.
+          Diseñamos un sistema a la medida de tu negocio.
         </p>
 
         {/* La ecuación */}
@@ -371,7 +371,7 @@ export default function MixSection() {
                 =
               </span>
               <span className={styles.resultText} data-result>
-                Un sistema.
+                Un sistema que funciona.
               </span>
             </p>
           </div>

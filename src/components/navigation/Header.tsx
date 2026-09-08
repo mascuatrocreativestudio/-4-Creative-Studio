@@ -8,6 +8,8 @@ import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 import { CTA_LINK, NAV_LINKS, type NavLink } from "@/lib/site";
 import { CONNECTION_PROGRESS } from "@/components/hero/Hero";
 import { MIX_VISIBLE_PROGRESS } from "@/components/mix/MixSection";
+import { FOCUS_VISIBLE_PROGRESS } from "@/components/focus/FocusSection";
+
 import BrandMark from "@/components/hero/BrandMark";
 import styles from "./Header.module.css";
 
@@ -42,7 +44,7 @@ type SceneTarget = {
 };
 
 const SCENE_TARGETS: Record<string, SceneTarget> = {
-  "#metodo": { anchor: "[data-headline]", progress: () => CONNECTION_PROGRESS },
+  "#metodo": { anchor: "[data-focus-stage]", progress: () => FOCUS_VISIBLE_PROGRESS },
   "#servicios": { anchor: "[data-mix-stage]", progress: () => MIX_VISIBLE_PROGRESS },
 };
 

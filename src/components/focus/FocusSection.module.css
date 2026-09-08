@@ -96,9 +96,9 @@
   left: var(--gutter);
   top: 21svh;
   margin: 0;
-  opacity: 0.28;
+  opacity: 0.9;
   font-family: var(--font-mono), monospace;
-  font-size: clamp(11px, 0.86vw, 14px);
+  font-size: clamp(14px, 1.15vw, 19px);
   line-height: 1.9;
   letter-spacing: 0.16em;
   text-transform: uppercase;

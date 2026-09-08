@@ -553,7 +553,7 @@ export default function TransformationSection() {
                   =
                 </span>
                 <span className={mixStyles.resultText} data-echo-result>
-                  Un sistema.
+                  Un sistema que funciona.
                 </span>
               </p>
             </div>
