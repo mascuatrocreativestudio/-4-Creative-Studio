@@ -22,6 +22,7 @@
 }
 
 .inner {
+  position: relative;
   width: 100%;
   max-width: 1240px;
 }
@@ -167,19 +168,6 @@
   min-width: 0;
 }
 
-/* --------------------------------- LAYOUT ---------------------------------- */
-/* Una sola columna por defecto (mobile primero). El lockup queda después del
-   bloque de texto, así que en mobile cierra la sección sin reordenar nada. */
-
-.layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  /* row-gap 0 a propósito: el ritmo vertical ya lo dan los margin-top que cada
-     pieza traía. Si el grid agregara su propio gap, el espaciado aprobado se
-     movería. El único que necesita margen propio es el lockup en mobile. */
-  row-gap: 0;
-}
-
 /* --------------------------------- LOCKUP ---------------------------------- */
 /* El SVG del lockup es blanco, igual que el símbolo de la firma. brightness(0)
    lo lleva a ink sin invertir tonos, sin duplicar el asset y sin tocar el
@@ -204,26 +192,20 @@
 }
 
 @media (min-width: 861px) {
-  /* Dos columnas sólo para la fila de abajo: el headline las cruza entera y
-     conserva exactamente el corte de línea que tenía. */
-  .layout {
-    grid-template-columns: minmax(0, 1fr) auto;
-    column-gap: clamp(40px, 5vw, 96px);
-  }
-
-  .headline {
-    grid-column: 1 / -1;
-  }
-
+  /* El lockup sale del flujo en vez de abrir una columna. Así el bloque de
+     texto conserva el ancho entero —y con él, el corte de línea del headline,
+     que en una columna se partía distinto— y el logo se apoya sobre el vacío
+     que ya existía a la derecha, sin desplazar nada. */
   .lockup {
-    /* ~30vw: presencia real en el lado derecho sin pelearle al headline, que es
-       varias veces más alto. Centrado contra el bloque de abajo, no contra la
-       sección: así queda alineado con el CTA y los links, que es el vacío que
-       viene a llenar. */
+    position: absolute;
+    right: 0;
+    /* Medido: con el headline en su ancho natural, el vacío que queda es un
+       rectángulo de ~960x374 a la derecha del bloque de abajo. El lockup se
+       apoya ahí, a la altura del CTA y los links, no al lado del titular ni
+       en la línea de la firma —eso lo volvería una fila de pie de página—. */
+    bottom: clamp(96px, 15vh, 175px);
     width: clamp(240px, 30vw, 430px);
     margin-top: 0;
-    justify-self: end;
-    align-self: center;
   }
 }
 
