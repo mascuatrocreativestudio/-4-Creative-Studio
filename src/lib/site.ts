@@ -9,6 +9,10 @@ export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 export const INSTAGRAM_URL = "https://www.instagram.com/mascuatro.studio/";
 
+/** Contacto secundario. Cambiar SOLO acá. */
+export const EMAIL = "mas4creativestudio@gmail.com";
+export const EMAIL_URL = `mailto:${EMAIL}`;
+
 export type NavLink = {
   label: string;
   href: string;

@@ -96,9 +96,9 @@
   left: var(--gutter);
   top: 21svh;
   margin: 0;
-  opacity: 0.28;
+  opacity: 0.9;
   font-family: var(--font-mono), monospace;
-  font-size: clamp(11px, 0.86vw, 14px);
+  font-size: clamp(14px, 1.15vw, 19px);
   line-height: 1.9;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -200,6 +200,14 @@
 
   .payoff {
     top: 68svh;
+    /* El payoff hereda white-space: nowrap del desktop, donde entra en una
+       línea. Acá no: mide 550px contra los 372 disponibles y quedaba cortado.
+       Se le da el borde derecho que le faltaba —está en position:absolute con
+       sólo `left`, así que sin esto no tiene contra qué partir— y se lo deja
+       envolver. balance reparte las dos líneas en vez de dejar una huérfana. */
+    right: var(--gutter);
+    white-space: normal;
+    text-wrap: balance;
     font-size: clamp(30px, 8.6vw, 46px);
   }
 }

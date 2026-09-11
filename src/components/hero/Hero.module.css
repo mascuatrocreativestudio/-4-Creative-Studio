@@ -104,9 +104,9 @@
   margin: 0 0 clamp(16px, 2.2vh, 26px);
   font-family: var(--font-mono), monospace;
   font-weight: 400;
-  font-size: var(--mono-size);
+  font-size: clamp(10px, 0.7vw, 13px);
   letter-spacing: var(--track);
-  color: rgba(245, 238, 228, 0.66);
+  color: rgba(245, 238, 228, 0.609);
   text-transform: uppercase;
 }
 

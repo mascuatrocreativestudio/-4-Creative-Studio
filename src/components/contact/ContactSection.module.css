@@ -22,6 +22,7 @@
 }
 
 .inner {
+  position: relative;
   width: 100%;
   max-width: 1240px;
 }
@@ -42,10 +43,27 @@
 .sub {
   margin: clamp(20px, 3.4vh, 40px) 0 0;
   font-family: var(--font-mono), monospace;
-  font-size: clamp(12px, 0.95vw, 16px);
+  font-size: clamp(15px, 1.2vw, 20px);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(9, 11, 16, 0.6);
+  /* Aire para que la banda no toque la línea de arriba ni la de abajo si el
+     texto llega a partirse en dos. */
+  line-height: 2.1;
+}
+
+/* Resaltado editorial, no botón: sin borde, sin radio, sin sombra. El naranja
+   es el token de marca, el mismo que usan el Hero y el favicon.
+
+   Va inline y no inline-block para que se comporte como un subrayador: si en
+   una pantalla angosta el texto se parte, box-decoration-break clona el fondo
+   en cada línea en vez de dejar un rectángulo que envuelve el hueco. */
+.highlight {
+  display: inline;
+  padding: 0.34em 0.6em;
+  background-color: var(--orange);
+  color: var(--ink);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 /* ---------------------------------- CTA ------------------------------------ */
@@ -101,20 +119,32 @@
 /* ------------------------------- SECUNDARIO -------------------------------- */
 /* Jerarquía claramente inferior al CTA: no es otro botón. */
 
-.instagram {
-  display: inline-block;
+/* Apilados y no en fila: así leen como un bloque de contacto y el mail, que es
+   largo, nunca compite por el ancho con el usuario de Instagram. */
+.links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(9px, 1.2vh, 14px);
   margin-top: clamp(26px, 4.5vh, 52px);
+}
+
+.link {
+  display: inline-block;
+  max-width: 100%;
   padding-bottom: 3px;
   border-bottom: 1px solid rgba(9, 11, 16, 0.25);
   font-family: var(--font-mono), monospace;
   font-size: clamp(11px, 0.85vw, 14px);
   letter-spacing: 0.16em;
   text-transform: uppercase;
+  /* El mail es largo: que parta por caracteres antes que desbordar. */
+  overflow-wrap: anywhere;
   color: rgba(9, 11, 16, 0.62);
   transition: color 0.3s ease, border-color 0.3s ease;
 }
 
-.instagram:hover {
+.link:hover {
   color: var(--ink);
   border-bottom-color: rgba(9, 11, 16, 0.6);
 }
@@ -125,7 +155,7 @@
 
 .mark {
   width: clamp(34px, 3.4vw, 52px);
-  margin-top: clamp(52px, 9vh, 110px);
+  margin-top:22px;
   filter: brightness(0);
 }
 
@@ -133,6 +163,51 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  /* El texto no se estira a toda la columna aunque haya sitio: el headline
+     tiene que seguir cortando donde corta. */
+  min-width: 0;
+}
+
+/* --------------------------------- LOCKUP ---------------------------------- */
+/* El SVG del lockup es blanco, igual que el símbolo de la firma. brightness(0)
+   lo lleva a ink sin invertir tonos, sin duplicar el asset y sin tocar el
+   archivo: es el mismo recurso que ya usa .mark acá abajo. */
+
+.lockup {
+  width: min(74vw, 300px);
+  margin-top: clamp(54px, 9vh, 88px);
+  filter: brightness(0);
+}
+
+/* BrandMark dimensiona el lockup por ALTO (está pensado para el header, que le
+   fija 14px). Acá lo queremos por ancho, así que hay que ganarle en
+   especificidad; de ahí el descendiente en vez de una clase suelta. */
+.lockup .lockupMark {
+  width: 100%;
+}
+
+.lockup .lockupMark img {
+  width: 100%;
+  height: auto;
+}
+
+@media (min-width: 861px) {
+  /* El lockup sale del flujo en vez de abrir una columna. Así el bloque de
+     texto conserva el ancho entero —y con él, el corte de línea del headline,
+     que en una columna se partía distinto— y el logo se apoya sobre el vacío
+     que ya existía a la derecha, sin desplazar nada. */
+  .lockup {
+    position: absolute;
+    right: 0;
+    /* Medido: con el headline en su ancho natural, el vacío que queda es un
+       rectángulo de ~960x374 a la derecha del bloque de abajo. El lockup se
+       apoya ahí, a la altura del CTA y los links, no al lado del titular ni
+       en la línea de la firma —eso lo volvería una fila de pie de página—. */
+    bottom: clamp(250px, 34vh, 340px);
+    width: clamp(240px, 30vw, 520px);
+    margin-top: 0;
+    transform: translateX(350px);
+  }
 }
 
 @media (max-width: 860px) {
@@ -143,6 +218,12 @@
 
   .headline {
     font-size: clamp(34px, 10.4vw, 60px);
+  }
+
+  /* En vertical, la firma chica y el lockup dirían lo mismo dos veces seguidas.
+     Cierra el lockup, que es el que lleva el nombre completo. */
+  .mark {
+    display: none;
   }
 
   .cta {
