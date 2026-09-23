@@ -4,7 +4,7 @@
  */
 
 /** Cambiar el número de WhatsApp SOLO acá. Formato internacional sin +, sin espacios. */
-export const WHATSAPP_NUMBER = "549XXXXXXXXXX";
+export const WHATSAPP_NUMBER = "5491167937594";
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 export const INSTAGRAM_URL = "https://www.instagram.com/mascuatro.studio/";
