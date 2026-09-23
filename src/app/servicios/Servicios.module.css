@@ -1,0 +1,330 @@
+/* ---------------------------------------------------------------------------
+   SERVICIOS — página interior
+
+   Mismo universo que la home (ink, cream, naranja, Archivo + Plex Mono) pero
+   ninguna de su coreografía: sin sticky, sin scrub, sin alturas en svh. Acá
+   manda la lectura, así que el alto lo define el contenido.
+
+   El único acento gráfico es el naranja en los números, igual que el + de la
+   ecuación en MEZCLA: conecta "sumar disciplinas" con el nombre +4.
+   --------------------------------------------------------------------------- */
+
+.page {
+  background-color: var(--ink);
+  color: var(--off);
+  /* El Header es fijo: el padding de arriba le deja su franja libre. */
+  padding: clamp(120px, 20vh, 200px) var(--gutter) clamp(80px, 12vh, 140px);
+}
+
+.page > * + * {
+  margin-top: clamp(80px, 13vh, 160px);
+}
+
+/* --------------------------------- INTRO ----------------------------------- */
+
+.intro {
+  max-width: 1240px;
+  margin-inline: auto;
+}
+
+.eyebrow {
+  margin: 0 0 clamp(26px, 4vh, 44px);
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(11px, 0.85vw, 14px);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.title {
+  margin: 0;
+  font-weight: 700;
+  font-size: clamp(38px, 6.4vw, 110px);
+  line-height: 0.94;
+  letter-spacing: -0.048em;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+
+.title span {
+  display: block;
+}
+
+.lead {
+  max-width: 62ch;
+  margin: clamp(32px, 5vh, 56px) 0 0;
+  font-size: clamp(16px, 1.35vw, 23px);
+  line-height: 1.5;
+  color: rgba(247, 246, 242, 0.72);
+}
+
+/* ------------------------------ DISCIPLINAS -------------------------------- */
+
+.services {
+  max-width: 1240px;
+  margin-inline: auto;
+  padding: 0;
+  list-style: none;
+}
+
+/* Tres columnas: número, cuerpo, ítems. El número es angosto y los ítems
+   tienen ancho fijo para que las cuatro filas rimen verticalmente. */
+.service {
+  display: grid;
+  grid-template-columns: 4rem minmax(0, 1fr) 15rem;
+  gap: clamp(24px, 3vw, 56px);
+  align-items: start;
+  padding: clamp(36px, 5.5vh, 64px) 0;
+  border-top: 1px solid rgba(247, 246, 242, 0.16);
+}
+
+.service:last-child {
+  border-bottom: 1px solid rgba(247, 246, 242, 0.16);
+}
+
+.index {
+  margin: 0;
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(12px, 1vw, 16px);
+  letter-spacing: 0.12em;
+  color: var(--orange);
+}
+
+.serviceBody {
+  min-width: 0;
+}
+
+.serviceTitle {
+  margin: 0;
+  font-weight: 700;
+  font-size: clamp(28px, 3.4vw, 54px);
+  line-height: 1;
+  letter-spacing: -0.038em;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+
+.serviceText {
+  max-width: 54ch;
+  margin: clamp(16px, 2.2vh, 26px) 0 0;
+  font-size: clamp(15px, 1.15vw, 19px);
+  line-height: 1.55;
+  color: rgba(247, 246, 242, 0.68);
+}
+
+.items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(247, 246, 242, 0.12);
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(10px, 0.8vw, 13px);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(247, 246, 242, 0.6);
+}
+
+/* --------------------------------- PROCESO --------------------------------- */
+
+.process {
+  max-width: 1240px;
+  margin-inline: auto;
+}
+
+.sectionTitle {
+  margin: 0 0 clamp(36px, 5.5vh, 64px);
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(11px, 0.85vw, 14px);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(28px, 4vw, 72px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stepIndex {
+  margin: 0 0 clamp(14px, 2vh, 22px);
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(10px, 0.8vw, 13px);
+  letter-spacing: 0.16em;
+  color: rgba(247, 246, 242, 0.4);
+}
+
+.stepTitle {
+  margin: 0;
+  font-weight: 700;
+  font-size: clamp(20px, 2vw, 30px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+
+.stepText {
+  margin: clamp(12px, 1.8vh, 18px) 0 0;
+  font-size: clamp(14px, 1.05vw, 17px);
+  line-height: 1.55;
+  color: rgba(247, 246, 242, 0.62);
+}
+
+/* ----------------------------------- CTA ----------------------------------- */
+
+.cta {
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-top: clamp(60px, 9vh, 110px);
+  border-top: 1px solid rgba(247, 246, 242, 0.16);
+}
+
+.ctaTitle {
+  margin: 0;
+  font-weight: 700;
+  font-size: clamp(34px, 5.2vw, 88px);
+  line-height: 0.96;
+  letter-spacing: -0.046em;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+
+.ctaTitle span {
+  display: block;
+}
+
+.ctaText {
+  max-width: 48ch;
+  margin: clamp(22px, 3.4vh, 36px) 0 0;
+  font-size: clamp(15px, 1.15vw, 19px);
+  line-height: 1.55;
+  color: rgba(247, 246, 242, 0.68);
+}
+
+/* Mismo rectángulo de borde fino que el CTA de la home, invertido para el
+   fondo oscuro: en hover se llena de cream y el texto pasa a ink. */
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+  margin-top: clamp(34px, 5vh, 60px);
+  padding: clamp(16px, 1.5vw, 22px) clamp(26px, 2.6vw, 44px);
+  border: 1px solid rgba(247, 246, 242, 0.5);
+  border-radius: 2px;
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(13px, 1.05vw, 17px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--off);
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    color 0.35s ease,
+    transform 0.35s ease;
+}
+
+.ctaArrow {
+  font-style: normal;
+  transition: transform 0.35s ease;
+}
+
+@media (hover: hover) {
+  .ctaButton:hover {
+    background-color: var(--off);
+    border-color: var(--off);
+    color: var(--ink);
+    transform: translateY(-2px);
+  }
+
+  .ctaButton:hover .ctaArrow {
+    transform: translate3d(2px, -2px, 0);
+  }
+}
+
+.ctaButton:active {
+  background-color: var(--off);
+  border-color: var(--off);
+  color: var(--ink);
+  transform: translateY(0);
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(9px, 1.2vh, 14px);
+  margin-top: clamp(30px, 4.5vh, 52px);
+}
+
+.link {
+  display: inline-block;
+  max-width: 100%;
+  padding-bottom: 3px;
+  border-bottom: 1px solid rgba(247, 246, 242, 0.25);
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(11px, 0.85vw, 14px);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+  color: rgba(247, 246, 242, 0.62);
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.link:hover {
+  color: var(--off);
+  border-bottom-color: rgba(247, 246, 242, 0.6);
+}
+
+/* El lockup ya es blanco: sobre ink va tal cual, sin el brightness(0) que
+   necesita en la sección clara de la home. */
+.mark {
+  width: min(70vw, 240px);
+  margin-top: clamp(56px, 9vh, 110px);
+}
+
+.mark .markImage {
+  width: 100%;
+}
+
+.mark .markImage img {
+  width: 100%;
+  height: auto;
+}
+
+/* --------------------------------- MOBILE ---------------------------------- */
+
+@media (max-width: 860px) {
+  .page {
+    padding-top: clamp(104px, 17vh, 150px);
+  }
+
+  /* Una sola columna: el número pasa a ser una línea sobre el título y los
+     ítems quedan debajo del texto. */
+  .service {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(18px, 3vh, 28px);
+  }
+
+  .serviceTitle {
+    font-size: clamp(26px, 8vw, 40px);
+  }
+
+  .steps {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(30px, 5vh, 48px);
+  }
+
+  .ctaButton {
+    padding: 18px 30px;
+    font-size: 14px;
+    letter-spacing: 0.16em;
+  }
+}

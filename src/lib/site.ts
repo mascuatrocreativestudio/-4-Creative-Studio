@@ -20,8 +20,12 @@ export type NavLink = {
 };
 
 export const NAV_LINKS: NavLink[] = [
-  { label: "MÉTODO", href: "#metodo" },
-  { label: "SERVICIOS", href: "#servicios" },
+  /* MÉTODO no es una sección con id: es un frame dentro del scroll de la home.
+     Por eso lleva la barra adelante — desde una página interior primero hay que
+     volver a "/", y el Header resuelve el frame al llegar. */
+  { label: "MÉTODO", href: "/#metodo" },
+  /* SERVICIOS ya no es un ancla a la animación: es una página de verdad. */
+  { label: "SERVICIOS", href: "/servicios" },
   { label: "INSTAGRAM", href: INSTAGRAM_URL, external: true },
 ];
 

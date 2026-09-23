@@ -7,7 +7,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 import { CTA_LINK, NAV_LINKS, type NavLink } from "@/lib/site";
 import { CONNECTION_PROGRESS } from "@/components/hero/Hero";
-import { MIX_VISIBLE_PROGRESS } from "@/components/mix/MixSection";
 import { FOCUS_VISIBLE_PROGRESS } from "@/components/focus/FocusSection";
 
 import BrandMark from "@/components/hero/BrandMark";
@@ -43,9 +42,10 @@ type SceneTarget = {
   progress: () => number;
 };
 
+/* Sólo MÉTODO sigue siendo una escena. SERVICIOS pasó a ser una página, así que
+   su link navega como cualquier <a> y no necesita entrada acá. */
 const SCENE_TARGETS: Record<string, SceneTarget> = {
-  "#metodo": { anchor: "[data-focus-stage]", progress: () => FOCUS_VISIBLE_PROGRESS },
-  "#servicios": { anchor: "[data-mix-stage]", progress: () => MIX_VISIBLE_PROGRESS },
+  "/#metodo": { anchor: "[data-focus-stage]", progress: () => FOCUS_VISIBLE_PROGRESS },
 };
 
 /** Posición de scroll del frame buscado, o null si la sección no está montada. */
@@ -154,6 +154,23 @@ export default function Header() {
       const top = sceneScrollTop(target);
       if (top === null) return;
       window.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
+      syncScrollTriggerAfterScroll();
+    });
+  }, []);
+
+  /* Llegada desde una página interior: el <a> navegó a "/#metodo" y el browser
+     no encuentra a dónde ir, porque #metodo no es un id sino un frame del
+     timeline. Lo resolvemos una vez al montar, con la misma cuenta que usa el
+     click. Si el hash no corresponde a ninguna escena —o la escena no está en
+     esta página— no hace nada. */
+  useEffect(() => {
+    const target = SCENE_TARGETS[`/${window.location.hash}`];
+    if (!target || !document.querySelector(target.anchor)) return;
+
+    onNextFrame(() => {
+      const top = sceneScrollTop(target);
+      if (top === null) return;
+      window.scrollTo({ top, behavior: "auto" });
       syncScrollTriggerAfterScroll();
     });
   }, []);
