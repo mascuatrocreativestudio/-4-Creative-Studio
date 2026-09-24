@@ -1,0 +1,252 @@
+/* ---------------------------------------------------------------------------
+   PREGUNTAS FRECUENTES
+
+   Misma familia que /servicios: ink, cream, naranja, sin coreografía. La única
+   interacción es el <details> nativo, así que no hay una línea de JavaScript.
+   --------------------------------------------------------------------------- */
+
+.page {
+  background-color: var(--ink);
+  color: var(--off);
+  padding: clamp(120px, 20vh, 200px) var(--gutter) clamp(80px, 12vh, 140px);
+}
+
+.page > * + * {
+  margin-top: clamp(64px, 10vh, 120px);
+}
+
+/* --------------------------------- INTRO ----------------------------------- */
+
+.intro {
+  max-width: 1240px;
+  margin-inline: auto;
+}
+
+.eyebrow {
+  margin: 0 0 clamp(26px, 4vh, 44px);
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(11px, 0.85vw, 14px);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.title {
+  margin: 0;
+  font-weight: 700;
+  font-size: clamp(38px, 6.4vw, 110px);
+  line-height: 0.94;
+  letter-spacing: -0.048em;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+
+.title span {
+  display: block;
+}
+
+/* -------------------------------- ACORDEÓN --------------------------------- */
+
+.list {
+  max-width: 1240px;
+  margin-inline: auto;
+}
+
+.item {
+  border-top: 1px solid rgba(247, 246, 242, 0.16);
+}
+
+.item:last-child {
+  border-bottom: 1px solid rgba(247, 246, 242, 0.16);
+}
+
+.question {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: clamp(20px, 4vw, 64px);
+  padding: clamp(22px, 3.4vh, 34px) 0;
+  cursor: pointer;
+  /* Sin el triángulo por defecto, en los dos motores. */
+  list-style: none;
+}
+
+.question::-webkit-details-marker {
+  display: none;
+}
+
+.questionText {
+  max-width: 48ch;
+  font-weight: 700;
+  font-size: clamp(17px, 1.8vw, 28px);
+  line-height: 1.25;
+  letter-spacing: -0.022em;
+  color: var(--cream);
+  transition: color 0.3s ease;
+}
+
+@media (hover: hover) {
+  .question:hover .questionText {
+    color: var(--off);
+  }
+
+  .question:hover .toggle {
+    transform: scale(1.1);
+  }
+}
+
+/* El + de la marca hace de indicador. Abierto gira 45° y se lee como ×. */
+.toggle {
+  flex: none;
+  font-style: normal;
+  font-size: clamp(20px, 2vw, 30px);
+  line-height: 1;
+  color: var(--orange);
+  transition: transform 0.3s ease;
+}
+
+.item[open] .toggle {
+  transform: rotate(45deg);
+}
+
+.item[open] .question .toggle:hover {
+  transform: rotate(45deg) scale(1.1);
+}
+
+.answer {
+  max-width: 62ch;
+  padding-bottom: clamp(26px, 4vh, 40px);
+}
+
+.answer p {
+  margin: 0;
+  font-size: clamp(15px, 1.15vw, 19px);
+  line-height: 1.6;
+  color: rgba(247, 246, 242, 0.68);
+}
+
+.answer p + p {
+  margin-top: clamp(12px, 1.8vh, 18px);
+}
+
+/* ----------------------------------- CTA ----------------------------------- */
+
+.cta {
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-top: clamp(50px, 8vh, 96px);
+}
+
+.ctaTitle {
+  margin: 0;
+  font-weight: 700;
+  font-size: clamp(34px, 5.2vw, 88px);
+  line-height: 0.96;
+  letter-spacing: -0.046em;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+  margin-top: clamp(30px, 4.5vh, 52px);
+  padding: clamp(16px, 1.5vw, 22px) clamp(26px, 2.6vw, 44px);
+  border: 1px solid rgba(247, 246, 242, 0.5);
+  border-radius: 2px;
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(13px, 1.05vw, 17px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--off);
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    color 0.35s ease,
+    transform 0.35s ease;
+}
+
+.ctaArrow {
+  font-style: normal;
+  transition: transform 0.35s ease;
+}
+
+@media (hover: hover) {
+  .ctaButton:hover {
+    background-color: var(--off);
+    border-color: var(--off);
+    color: var(--ink);
+    transform: translateY(-2px);
+  }
+
+  .ctaButton:hover .ctaArrow {
+    transform: translate3d(2px, -2px, 0);
+  }
+}
+
+.ctaButton:active {
+  background-color: var(--off);
+  border-color: var(--off);
+  color: var(--ink);
+  transform: translateY(0);
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(9px, 1.2vh, 14px);
+  margin-top: clamp(30px, 4.5vh, 52px);
+}
+
+.link {
+  display: inline-block;
+  max-width: 100%;
+  padding-bottom: 3px;
+  border-bottom: 1px solid rgba(247, 246, 242, 0.25);
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(11px, 0.85vw, 14px);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+  color: rgba(247, 246, 242, 0.62);
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.link:hover {
+  color: var(--off);
+  border-bottom-color: rgba(247, 246, 242, 0.6);
+}
+
+.mark {
+  width: min(70vw, 240px);
+  margin-top: clamp(56px, 9vh, 110px);
+}
+
+.mark .markImage {
+  width: 100%;
+}
+
+.mark .markImage img {
+  width: 100%;
+  height: auto;
+}
+
+/* --------------------------------- MOBILE ---------------------------------- */
+
+@media (max-width: 860px) {
+  .page {
+    padding-top: clamp(104px, 17vh, 150px);
+  }
+
+  .questionText {
+    font-size: clamp(16px, 4.6vw, 21px);
+  }
+
+  .ctaButton {
+    padding: 18px 30px;
+    font-size: 14px;
+    letter-spacing: 0.16em;
+  }
+}

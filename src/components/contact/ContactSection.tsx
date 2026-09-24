@@ -63,6 +63,16 @@ export default function ContactSection() {
             </a>
           </div>
 
+          {/* Cierra la home mandando a la página que contesta lo que este final
+              no puede contestar. Va fuera del bloque de arriba a propósito: no
+              es una vía de contacto, es otra página. */}
+          <a className={styles.faqLink} href="/preguntas-frecuentes">
+            Preguntas frecuentes
+            <i className={styles.faqArrow} aria-hidden="true">
+              →
+            </i>
+          </a>
+
           {/* La firma chica. Decorativa: el nombre de la marca ya lo anuncia
               el lockup grande, no hace falta repetirlo en el lector. */}
           <div className={styles.mark}>

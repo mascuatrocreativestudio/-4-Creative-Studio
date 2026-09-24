@@ -149,6 +149,36 @@
   border-bottom-color: rgba(9, 11, 16, 0.6);
 }
 
+/* Acceso a la FAQ. Misma escala mono que los links de contacto, pero sin
+   subrayado y con flecha: se lee como "ir a", no como "escribinos". */
+.faqLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  margin-top: clamp(22px, 3.4vh, 38px);
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(11px, 0.85vw, 14px);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(9, 11, 16, 0.62);
+  transition: color 0.3s ease;
+}
+
+.faqArrow {
+  font-style: normal;
+  transition: transform 0.3s ease;
+}
+
+@media (hover: hover) {
+  .faqLink:hover {
+    color: var(--ink);
+  }
+
+  .faqLink:hover .faqArrow {
+    transform: translateX(3px);
+  }
+}
+
 /* --------------------------------- FIRMA ----------------------------------- */
 /* El +4 sigue presente pero discreto. El SVG es blanco: brightness(0) lo lleva
    a ink sin invertir tonos ni tocar el archivo. */
