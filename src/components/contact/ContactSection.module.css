@@ -149,33 +149,36 @@
   border-bottom-color: rgba(9, 11, 16, 0.6);
 }
 
-/* Acceso a la FAQ. Misma escala mono que los links de contacto, pero sin
-   subrayado y con flecha: se lee como "ir a", no como "escribinos". */
+/* Acceso a la FAQ.
+   Se distingue del bloque de contacto por tres cosas, ninguna nueva en el
+   sistema: el texto va en ink pleno y no atenuado, la flecha toma el naranja
+   de marca, y un filete finito lo separa de los links de arriba. Sigue siendo
+   la misma tipografía mono a la misma escala — no es un botón, es el único
+   enlace del cierre que lleva a otra página. */
 .faqLink {
   display: inline-flex;
   align-items: center;
-  gap: 0.6em;
-  margin-top: clamp(22px, 3.4vh, 38px);
+  gap: 0.7em;
+  margin-top: clamp(24px, 3.6vh, 40px);
+  padding-top: clamp(20px, 3vh, 32px);
+  border-top: 1px solid rgba(9, 11, 16, 0.18);
   font-family: var(--font-mono), monospace;
   font-size: clamp(11px, 0.85vw, 14px);
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(9, 11, 16, 0.62);
+  color: var(--ink);
   transition: color 0.3s ease;
 }
 
 .faqArrow {
   font-style: normal;
+  color: var(--orange);
   transition: transform 0.3s ease;
 }
 
 @media (hover: hover) {
-  .faqLink:hover {
-    color: var(--ink);
-  }
-
   .faqLink:hover .faqArrow {
-    transform: translateX(3px);
+    transform: translateX(4px);
   }
 }
 

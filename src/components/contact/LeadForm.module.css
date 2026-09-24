@@ -1,0 +1,175 @@
+/* ---------------------------------------------------------------------------
+   FORMULARIO DEL CIERRE
+
+   Mismo universo claro que el CTA: sin cajas, sin sombras, sin bordes
+   redondeados. Los campos son una línea fina abajo, como el resto de los links
+   de la sección — el formulario tiene que leerse como parte de la página, no
+   como un widget pegado encima.
+   --------------------------------------------------------------------------- */
+
+.form {
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+}
+
+/* Tres en fila en desktop; el ancho mínimo evita que "Teléfono" quede apretado
+   antes de que el breakpoint los apile. */
+.campos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(22px, 3vw, 48px);
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  min-width: 0;
+}
+
+.label {
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(10px, 0.8vw, 12px);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(9, 11, 16, 0.55);
+}
+
+.input {
+  width: 100%;
+  padding: 10px 0 12px;
+  border: 0;
+  border-bottom: 1px solid rgba(9, 11, 16, 0.28);
+  border-radius: 0;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: clamp(15px, 1.2vw, 19px);
+  color: var(--ink);
+  transition: border-color 0.3s ease;
+  /* Safari en iOS le pone su propio fondo y radio a los input. */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.input:hover {
+  border-bottom-color: rgba(9, 11, 16, 0.5);
+}
+
+.input:focus {
+  outline: none;
+  border-bottom-color: var(--orange);
+}
+
+/* El foco visible no se pierde: el borde naranja lo marca, y para teclado
+   además queda el outline del sistema definido en globals.css. */
+.input:focus-visible {
+  border-bottom-color: var(--orange);
+}
+
+/* Fuera de pantalla, no display:none: así los bots la ven en el HTML. */
+.trampa {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(16px, 2.4vw, 32px);
+  margin-top: clamp(30px, 4.5vh, 52px);
+}
+
+/* Mismo rectángulo editorial que CONTACTANOS, pero relleno: es el botón de una
+   acción, no un enlace, y no tiene que competir con el CTA principal — por eso
+   va más chico. */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+  padding: 14px clamp(22px, 2.2vw, 34px);
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  background-color: var(--ink);
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(12px, 0.95vw, 15px);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--off);
+  cursor: pointer;
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease,
+    transform 0.35s ease,
+    opacity 0.3s ease;
+}
+
+.flecha {
+  font-style: normal;
+  transition: transform 0.35s ease;
+}
+
+@media (hover: hover) {
+  .boton:hover:not(:disabled) {
+    background-color: transparent;
+    color: var(--ink);
+    transform: translateY(-2px);
+  }
+
+  .boton:hover:not(:disabled) .flecha {
+    transform: translateX(3px);
+  }
+}
+
+.boton:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.nota {
+  margin: 0;
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(10px, 0.78vw, 12px);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(9, 11, 16, 0.45);
+}
+
+.error,
+.exito {
+  max-width: 62ch;
+  margin: clamp(20px, 3vh, 30px) 0 0;
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(11px, 0.85vw, 14px);
+  line-height: 1.7;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(9, 11, 16, 0.62);
+}
+
+.exito {
+  margin: 0;
+  color: var(--ink);
+}
+
+.errorLink {
+  color: var(--ink);
+  border-bottom: 1px solid rgba(9, 11, 16, 0.4);
+}
+
+@media (max-width: 860px) {
+  .campos {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(20px, 3vh, 30px);
+  }
+
+  .boton {
+    padding: 16px 28px;
+  }
+}
