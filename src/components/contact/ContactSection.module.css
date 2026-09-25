@@ -170,8 +170,11 @@
   display: inline-flex;
   align-items: center;
   gap: 0.7em;
-  margin-top: clamp(24px, 3.6vh, 40px);
-  padding-top: clamp(20px, 3vh, 32px);
+  /* Aire suficiente para que el filete lo despegue del bloque de contacto, sin
+     pasarse: en pantallas anchas el titular ocupa tres líneas y cada píxel de
+     más acá empuja la sección fuera de la pantalla. */
+  margin-top: clamp(18px, 2.4vh, 28px);
+  padding-top: clamp(15px, 2vh, 22px);
   border-top: 1px solid rgba(9, 11, 16, 0.18);
   font-family: var(--font-mono), monospace;
   font-size: clamp(11px, 0.85vw, 14px);
@@ -225,7 +228,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: clamp(34px, 5.5vh, 64px);
+  gap: clamp(18px, 2.2vh, 24px);
   margin-top: clamp(54px, 9vh, 88px);
   min-width: 0;
 }
@@ -248,16 +251,6 @@
   color: var(--orange);
 }
 
-.leadTitle {
-  margin: 0 0 clamp(26px, 4vh, 42px);
-  font-weight: 700;
-  font-size: clamp(24px, 2.4vw, 38px);
-  line-height: 1.02;
-  letter-spacing: -0.036em;
-  text-transform: uppercase;
-  color: var(--ink);
-}
-
 /* BrandMark dimensiona el lockup por ALTO (está pensado para el header, que le
    fija 14px). Acá lo queremos por ancho, así que hay que ganarle en
    especificidad; de ahí el descendiente en vez de una clase suelta. */
@@ -274,8 +267,12 @@
   /* Dos columnas sólo para la fila de abajo: el titular las cruza entera y se
      queda con su ancho natural, así que conserva su corte de línea. */
   .inner {
-    grid-template-columns: minmax(0, 1fr) minmax(320px, 470px);
-    column-gap: clamp(48px, 6vw, 110px);
+    /* La columna derecha mide lo que medía el lockup en producción
+       —clamp(240px, 30vw, 520px)—, así el logo conserva su escala y el
+       formulario comparte exactamente sus bordes: leen como un solo bloque,
+       sin aire suelto a los costados. */
+    grid-template-columns: minmax(0, 1fr) clamp(300px, 30vw, 520px);
+    column-gap: clamp(40px, 5vw, 90px);
   }
 
   .headline {
@@ -286,12 +283,15 @@
      translateX(350px) que lo sacaba 202 px fuera de la pantalla: en 1440 se
      cortaba en "CREATIV…". Como primera fila de esta columna queda arriba,
      alineado con el bloque de contacto, y ya no se sale de ningún lado. */
+  /* Casi pegado al titular: el bloque de la derecha tiene que entrar en el
+     alto que ya ocupa la izquierda, si no la sección se sale de la pantalla. */
   .aside {
-    margin-top: clamp(34px, 5vh, 60px);
+    margin-top: clamp(8px, 1.2vh, 16px);
   }
 
+  /* Llena la columna: mismo ancho y mismos bordes que el formulario de abajo. */
   .lockup {
-    width: clamp(240px, 26vw, 420px);
+    width: 100%;
   }
 }
 

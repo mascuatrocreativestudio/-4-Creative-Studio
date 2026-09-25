@@ -16,13 +16,13 @@
 .campos {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: clamp(20px, 2.6vh, 28px);
+  gap: clamp(11px, 1.4vh, 14px);
 }
 
 .campo {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
   margin: 0;
   min-width: 0;
 }
@@ -37,7 +37,7 @@
 
 .input {
   width: 100%;
-  padding: 10px 0 12px;
+  padding: 6px 0 9px;
   border: 0;
   border-bottom: 1px solid rgba(9, 11, 16, 0.28);
   border-radius: 0;
@@ -76,12 +76,15 @@
   pointer-events: none;
 }
 
+/* En columna: al ancho del logo, el botón y la nota nunca entran en una fila,
+   y apilados el alto es predecible — que es lo que mantiene la sección en su
+   altura original. */
 .pie {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: clamp(16px, 2.4vw, 32px);
-  margin-top: clamp(30px, 4.5vh, 52px);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(9px, 1.1vh, 11px);
+  margin-top: clamp(16px, 2.2vh, 24px);
 }
 
 /* Mismo rectángulo editorial que CONTACTANOS, pero relleno: es el botón de una
@@ -91,7 +94,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.7em;
-  padding: 14px clamp(22px, 2.2vw, 34px);
+  padding: 12px clamp(20px, 2vw, 30px);
   border: 1px solid var(--ink);
   border-radius: 2px;
   background-color: var(--ink);
@@ -133,8 +136,9 @@
 .nota {
   margin: 0;
   font-family: var(--font-mono), monospace;
-  font-size: clamp(10px, 0.78vw, 12px);
-  letter-spacing: 0.12em;
+  font-size: clamp(9px, 0.72vw, 11px);
+  line-height: 1.5;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: rgba(9, 11, 16, 0.45);
 }
@@ -142,7 +146,7 @@
 .error,
 .exito {
   max-width: 62ch;
-  margin: clamp(20px, 3vh, 30px) 0 0;
+  margin: clamp(14px, 2vh, 22px) 0 0;
   font-family: var(--font-mono), monospace;
   font-size: clamp(11px, 0.85vw, 14px);
   line-height: 1.7;

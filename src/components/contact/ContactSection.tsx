@@ -94,9 +94,11 @@ export default function ContactSection() {
             />
           </div>
 
+          {/* Sin titular propio: el bloque tiene que entrar en el alto que la
+              columna izquierda ya ocupa, para que la sección no crezca. Lo que
+              diría ese titular ya lo dicen el volanta, el botón y la nota. */}
           <div className={styles.lead}>
             <p className={styles.leadEyebrow}>Dejanos tus datos</p>
-            <h3 className={styles.leadTitle}>Te escribimos nosotros.</h3>
             <LeadForm />
           </div>
         </div>
