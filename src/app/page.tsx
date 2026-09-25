@@ -4,7 +4,6 @@ import MixSection from "@/components/mix/MixSection";
 import TransformationSection from "@/components/transformation/TransformationSection";
 import FocusSection from "@/components/focus/FocusSection";
 import ContactSection from "@/components/contact/ContactSection";
-import LeadSection from "@/components/contact/LeadSection";
 
 export default function Home() {
   return (
@@ -21,8 +20,6 @@ export default function Home() {
         <FocusSection />
         {/* CIERRE — CTA. Sección normal, sin scroll jacking. Fin de la narrativa. */}
         <ContactSection />
-        {/* Última franja: dejar los datos para que el estudio escriba. */}
-        <LeadSection />
       </main>
     </>
   );

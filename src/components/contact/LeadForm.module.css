@@ -9,16 +9,14 @@
 
 .form {
   width: 100%;
-  max-width: 1240px;
-  margin-inline: auto;
 }
 
-/* Tres en fila en desktop; el ancho mínimo evita que "Teléfono" quede apretado
-   antes de que el breakpoint los apile. */
+/* Siempre apilados: el formulario vive en la columna angosta del cierre, donde
+   tres campos en fila dejarían el email en 150 px. */
 .campos {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(22px, 3vw, 48px);
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(20px, 2.6vh, 28px);
 }
 
 .campo {
@@ -164,11 +162,6 @@
 }
 
 @media (max-width: 860px) {
-  .campos {
-    grid-template-columns: minmax(0, 1fr);
-    gap: clamp(20px, 3vh, 30px);
-  }
-
   .boton {
     padding: 16px 28px;
   }

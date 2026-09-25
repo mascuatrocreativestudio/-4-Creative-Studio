@@ -21,13 +21,24 @@
   color: var(--ink);
 }
 
+/* Mobile primero: una sola columna, en el orden del DOM — titular, bloque de
+   texto, y abajo el lockup con el formulario. */
 .inner {
   position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  /* row-gap 0: el ritmo vertical lo siguen dando los margin-top de cada pieza,
+     que ya estaban aprobados. */
+  row-gap: 0;
   width: 100%;
   max-width: 1240px;
 }
 
 .headline {
+  /* Se dimensiona a su contenido, no a la columna: es lo mismo que hacía como
+     item de un flex con align-items:flex-start, así que el corte de línea no
+     cambia respecto de la versión aprobada. */
+  justify-self: start;
   margin: 0;
   font-weight: 700;
   font-size: clamp(38px, 6.4vw, 118px);
@@ -206,10 +217,45 @@
    lo lleva a ink sin invertir tonos, sin duplicar el asset y sin tocar el
    archivo: es el mismo recurso que ya usa .mark acá abajo. */
 
+/* --------------------------- COLUMNA DERECHA ------------------------------- */
+/* Lockup arriba, formulario abajo. En desktop es la segunda columna de la
+   grilla; en mobile simplemente cierra la página. */
+
+.aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(34px, 5.5vh, 64px);
+  margin-top: clamp(54px, 9vh, 88px);
+  min-width: 0;
+}
+
 .lockup {
   width: min(74vw, 300px);
-  margin-top: clamp(54px, 9vh, 88px);
   filter: brightness(0);
+}
+
+.lead {
+  width: 100%;
+}
+
+.leadEyebrow {
+  margin: 0 0 clamp(12px, 1.8vh, 18px);
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(10px, 0.8vw, 13px);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.leadTitle {
+  margin: 0 0 clamp(26px, 4vh, 42px);
+  font-weight: 700;
+  font-size: clamp(24px, 2.4vw, 38px);
+  line-height: 1.02;
+  letter-spacing: -0.036em;
+  text-transform: uppercase;
+  color: var(--ink);
 }
 
 /* BrandMark dimensiona el lockup por ALTO (está pensado para el header, que le
@@ -225,21 +271,27 @@
 }
 
 @media (min-width: 861px) {
-  /* El lockup sale del flujo en vez de abrir una columna. Así el bloque de
-     texto conserva el ancho entero —y con él, el corte de línea del headline,
-     que en una columna se partía distinto— y el logo se apoya sobre el vacío
-     que ya existía a la derecha, sin desplazar nada. */
+  /* Dos columnas sólo para la fila de abajo: el titular las cruza entera y se
+     queda con su ancho natural, así que conserva su corte de línea. */
+  .inner {
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 470px);
+    column-gap: clamp(48px, 6vw, 110px);
+  }
+
+  .headline {
+    grid-column: 1 / -1;
+  }
+
+  /* El lockup vuelve al flujo. Antes salía de él y lo empujaba un
+     translateX(350px) que lo sacaba 202 px fuera de la pantalla: en 1440 se
+     cortaba en "CREATIV…". Como primera fila de esta columna queda arriba,
+     alineado con el bloque de contacto, y ya no se sale de ningún lado. */
+  .aside {
+    margin-top: clamp(34px, 5vh, 60px);
+  }
+
   .lockup {
-    position: absolute;
-    right: 0;
-    /* Medido: con el headline en su ancho natural, el vacío que queda es un
-       rectángulo de ~960x374 a la derecha del bloque de abajo. El lockup se
-       apoya ahí, a la altura del CTA y los links, no al lado del titular ni
-       en la línea de la firma —eso lo volvería una fila de pie de página—. */
-    bottom: clamp(250px, 34vh, 340px);
-    width: clamp(240px, 30vw, 520px);
-    margin-top: 0;
-    transform: translateX(350px);
+    width: clamp(240px, 26vw, 420px);
   }
 }
 

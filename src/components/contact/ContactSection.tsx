@@ -1,5 +1,6 @@
 import { EMAIL, EMAIL_URL, INSTAGRAM_URL, WHATSAPP_URL } from "@/lib/site";
 import BrandMark from "@/components/hero/BrandMark";
+import LeadForm from "./LeadForm";
 import styles from "./ContactSection.module.css";
 
 /**
@@ -19,15 +20,16 @@ export default function ContactSection() {
   return (
     <section className={styles.contact} aria-labelledby="contact-title">
       <div className={styles.inner}>
-        {/* El bloque de texto queda EXACTAMENTE como estaba: el headline es el
-            primer hijo de .row y .row ocupa el ancho entero. El lockup no lo
-            rodea ni le recorta la columna — se posiciona sobre el vacío. */}
-        <div className={styles.row}>
-          <h2 className={styles.headline} id="contact-title">
-            <span>Tu marca podria</span>
-            <span>estar haciendo más.</span>
-          </h2>
+        {/* El headline cruza las dos columnas y se dimensiona a su contenido
+            (justify-self: start), que es exactamente lo que hacía dentro del
+            flex de .row. Sale de la columna para que abrirle una al formulario
+            no le cambie el corte de línea. */}
+        <h2 className={styles.headline} id="contact-title">
+          <span>Tu marca podria</span>
+          <span>estar haciendo más.</span>
+        </h2>
 
+        <div className={styles.row}>
           {/* El resaltado va en un span y no en el <p>: así la banda mide lo
               que mide el texto, no el ancho de la columna. */}
           <p className={styles.sub}>
@@ -80,12 +82,23 @@ export default function ContactSection() {
           </div>
         </div>
 
-        <div className={styles.lockup}>
-          <BrandMark
-            variant="lockup"
-            className={styles.lockupMark}
-            alt="+4 Creative Studio"
-          />
+        {/* Columna derecha: el lockup arriba y, debajo, la vía para quien no
+            quiere abrir una conversación todavía y prefiere que lo llamen.
+            Juntos ocupan el vacío que quedaba a la derecha del cierre. */}
+        <div className={styles.aside}>
+          <div className={styles.lockup}>
+            <BrandMark
+              variant="lockup"
+              className={styles.lockupMark}
+              alt="+4 Creative Studio"
+            />
+          </div>
+
+          <div className={styles.lead}>
+            <p className={styles.leadEyebrow}>Dejanos tus datos</p>
+            <h3 className={styles.leadTitle}>Te escribimos nosotros.</h3>
+            <LeadForm />
+          </div>
         </div>
       </div>
     </section>
