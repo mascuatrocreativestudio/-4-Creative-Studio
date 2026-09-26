@@ -285,14 +285,33 @@
      alineado con el bloque de contacto, y ya no se sale de ningún lado. */
   /* Casi pegado al titular: el bloque de la derecha tiene que entrar en el
      alto que ya ocupa la izquierda, si no la sección se sale de la pantalla. */
+  /* Un poco más de aire que antes: cuando el empuje se queda corto el logo sube
+     menos, pero se acerca en horizontal al final del titular. Este margen es el
+     colchón que evita que se toquen. */
   .aside {
-    margin-top: clamp(8px, 1.2vh, 16px);
+    margin-top: clamp(22px, 2.8vh, 32px);
   }
 
   /* Llena la columna: mismo ancho y mismos bordes que el formulario de abajo. */
   .lockup {
     width: 100%;
-    transform: translate(350px, -50px);
+
+    /* El logo se corre en diagonal hacia el hueco que queda a la derecha del
+       contenedor de texto (1240 px). Ese hueco NO es fijo: en 1920 sobran unos
+       560 px, en 1440 apenas 96. Por eso el empuje se mide contra el hueco real
+       en vez de ser 350 px siempre — con el valor fijo el logo se cortaba en
+       toda pantalla de menos de 1650 px, que son casi todos los portátiles.
+
+       En pantallas anchas la cuenta da 350 y la posición es exactamente la
+       elegida a mano; en las más angostas se corre sólo lo que entra, hasta
+       cero. Los 18 px que se restan son el ancho de la barra de scroll, que
+       100vw incluye y la pantalla no.
+
+       La subida acompaña al empuje en la misma proporción (1/7 → 50 px cuando
+       el empuje es 350), así el logo viaja siempre por la misma diagonal y
+       nunca se monta sobre el titular al quedarse corto de desplazamiento. */
+    --empuje: min(350px, max(0px, 100vw - 2 * var(--gutter) - 1240px - 18px));
+    transform: translate(var(--empuje), calc(var(--empuje) / -7));
   }
 }
 
