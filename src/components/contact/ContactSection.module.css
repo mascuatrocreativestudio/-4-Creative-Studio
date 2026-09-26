@@ -292,6 +292,7 @@
   /* Llena la columna: mismo ancho y mismos bordes que el formulario de abajo. */
   .lockup {
     width: 100%;
+    transform: translate(350px, -50px);
   }
 }
 
