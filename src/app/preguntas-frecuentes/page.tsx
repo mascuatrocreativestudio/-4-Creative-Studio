@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/navigation/Header";
 import BrandMark from "@/components/hero/BrandMark";
+import LegalLinks from "@/components/legal/LegalLinks";
 import { FAQ_CTA, FAQ_ITEMS, FAQ_PAGE } from "@/lib/faq";
 import { EMAIL, EMAIL_URL, INSTAGRAM_URL, SITE_NAME, WHATSAPP_URL } from "@/lib/site";
 import styles from "./Preguntas.module.css";
@@ -99,6 +100,9 @@ export default function PreguntasFrecuentesPage() {
           <div className={styles.mark}>
             <BrandMark variant="lockup" className={styles.markImage} alt={SITE_NAME} />
           </div>
+
+          {/* Los documentos legales, accesibles desde cualquier página. */}
+          <LegalLinks className={styles.legal} />
         </section>
       </main>
     </>

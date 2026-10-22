@@ -200,9 +200,19 @@
 /* El +4 sigue presente pero discreto. El SVG es blanco: brightness(0) lo lleva
    a ink sin invertir tonos ni tocar el archivo. */
 
+/* La firma y la línea legal en un mismo renglón: el símbolo es más alto que la
+   línea de enlaces, así que los documentos legales no le suman alto al cierre.
+   El margen que antes llevaba .mark ahora lo lleva la fila. */
+.firma {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2vw, 30px);
+  margin-top: 22px;
+}
+
 .mark {
+  flex: none;
   width: clamp(34px, 3.4vw, 52px);
-  margin-top:22px;
   filter: brightness(0);
 }
 

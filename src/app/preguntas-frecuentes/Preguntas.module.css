@@ -233,6 +233,12 @@
   height: auto;
 }
 
+/* Línea legal al pie. Hereda el color del contexto, así que no necesita
+   variante para el fondo ink de estas páginas. */
+.legal {
+  margin-top: clamp(30px, 4.5vh, 52px);
+}
+
 /* --------------------------------- MOBILE ---------------------------------- */
 
 @media (max-width: 860px) {

@@ -4,6 +4,7 @@ import { EQUATION_TERMS } from "@/lib/scene";
 import { PROCESS, SERVICES_CTA, SERVICES_PAGE, SERVICE_DESCRIPTIONS } from "@/lib/services";
 import { EMAIL, EMAIL_URL, INSTAGRAM_URL, SITE_NAME, WHATSAPP_URL } from "@/lib/site";
 import BrandMark from "@/components/hero/BrandMark";
+import LegalLinks from "@/components/legal/LegalLinks";
 import styles from "./Servicios.module.css";
 
 /**
@@ -133,6 +134,9 @@ export default function ServiciosPage() {
           <div className={styles.mark}>
             <BrandMark variant="lockup" className={styles.markImage} alt={SITE_NAME} />
           </div>
+
+          {/* Los documentos legales, accesibles desde cualquier página. */}
+          <LegalLinks className={styles.legal} />
         </section>
       </main>
     </>

@@ -1,5 +1,6 @@
 import { EMAIL, EMAIL_URL, INSTAGRAM_URL, WHATSAPP_URL } from "@/lib/site";
 import BrandMark from "@/components/hero/BrandMark";
+import LegalLinks from "@/components/legal/LegalLinks";
 import LeadForm from "./LeadForm";
 import styles from "./ContactSection.module.css";
 
@@ -75,10 +76,19 @@ export default function ContactSection() {
             </i>
           </a>
 
-          {/* La firma chica. Decorativa: el nombre de la marca ya lo anuncia
-              el lockup grande, no hace falta repetirlo en el lector. */}
-          <div className={styles.mark}>
-            <BrandMark variant="mark" alt="" />
+          {/* La firma chica y la línea legal comparten renglón. El símbolo mide
+              34–52 px de alto y la línea de enlaces 14, así que los tres
+              documentos obligatorios entran sin sumar un píxel al alto del
+              cierre, que es justo lo que no podemos gastar acá.
+
+              La firma es decorativa: el nombre de la marca ya lo anuncia el
+              lockup grande, no hace falta repetirlo en el lector. */}
+          <div className={styles.firma}>
+            <div className={styles.mark}>
+              <BrandMark variant="mark" alt="" />
+            </div>
+
+            <LegalLinks />
           </div>
         </div>
 
