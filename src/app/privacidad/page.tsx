@@ -13,6 +13,7 @@ const TITULO = `${PRIVACIDAD.nombreCorto} — ${SITE_NAME}`;
 export const metadata: Metadata = {
   title: TITULO,
   description: PRIVACIDAD.descripcion,
+  alternates: { canonical: `/${PRIVACIDAD.slug}` },
   openGraph: {
     title: TITULO,
     description: PRIVACIDAD.descripcion,

@@ -25,6 +25,7 @@ const DESCRIPTION =
 export const metadata: Metadata = {
   title: `Preguntas frecuentes — ${SITE_NAME}`,
   description: DESCRIPTION,
+  alternates: { canonical: "/preguntas-frecuentes" },
   openGraph: {
     title: `Preguntas frecuentes — ${SITE_NAME}`,
     description: DESCRIPTION,

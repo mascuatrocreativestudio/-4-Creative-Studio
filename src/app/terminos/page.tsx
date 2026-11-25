@@ -13,6 +13,7 @@ const TITULO = `${TERMINOS.nombreCorto} — ${SITE_NAME}`;
 export const metadata: Metadata = {
   title: TITULO,
   description: TERMINOS.descripcion,
+  alternates: { canonical: `/${TERMINOS.slug}` },
   openGraph: {
     title: TITULO,
     description: TERMINOS.descripcion,

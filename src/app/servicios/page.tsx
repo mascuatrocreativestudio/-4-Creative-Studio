@@ -30,6 +30,7 @@ export const metadata: Metadata = {
   title: `Servicios — ${SITE_NAME}`,
   description:
     "Estrategia, identidad, contenido y crecimiento. Cuatro disciplinas que trabajan juntas para que tu marca genere demanda.",
+  alternates: { canonical: "/servicios" },
   openGraph: {
     title: `Servicios — ${SITE_NAME}`,
     description:

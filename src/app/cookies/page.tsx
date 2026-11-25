@@ -13,6 +13,7 @@ const TITULO = `${COOKIES.nombreCorto} — ${SITE_NAME}`;
 export const metadata: Metadata = {
   title: TITULO,
   description: COOKIES.descripcion,
+  alternates: { canonical: `/${COOKIES.slug}` },
   openGraph: {
     title: TITULO,
     description: COOKIES.descripcion,

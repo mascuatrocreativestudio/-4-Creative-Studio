@@ -186,9 +186,8 @@ export const TRANSFORMATION_PIECES: TransformationPiece[] = [
     src: "/transformation/transformation-caso-consultas.jpg",
     alt: "Caso: publicar no es lo mismo que vender. Contenido pensado para generar consultas.",
     z: 8,
-    /* ⚠️ FALTA EL DESTINO. Descomentar con la ruta del caso y queda activa:
-       href: "/casos/<slug>",
-       hrefLabel: "Ver el caso completo", */
+    href: "/casos/el-cajon-de-las-medias",
+    hrefLabel: "Ver el caso de El Cajón de las Medias: de estar por cerrar a su mejor mes registrado",
   },
   {
     id: "estudio",
@@ -204,9 +203,8 @@ export const TRANSFORMATION_PIECES: TransformationPiece[] = [
     src: "/transformation/transformation-caso-mayoristas.jpg",
     alt: "Caso: de 1 cliente mayorista nuevo en seis meses a 20 clientes nuevos por mes.",
     z: 2,
-    /* ⚠️ FALTA EL DESTINO. Descomentar con la ruta del caso y queda activa:
-       href: "/casos/<slug>",
-       hrefLabel: "Ver el caso completo", */
+    href: "/casos/distribuidora-mitre",
+    hrefLabel: "Ver el caso de Distribuidora Mitre: de cero clientes nuevos a 20 por mes",
   },
   {
     id: "identidad",
