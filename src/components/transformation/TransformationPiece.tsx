@@ -22,29 +22,57 @@ import styles from "./TransformationSection.module.css";
  * transform de grupo. Ver TransformationSection.
  */
 export default function TransformationPiece({ piece }: { piece: Piece }) {
+  const media = (
+    <div className={styles.pieceMedia} data-piece-media={piece.id}>
+      {/* <img> y no next/image: se animan transform y escala sobre el
+          elemento y hace falta control directo. loading="lazy" y no eager:
+          son ocho archivos, y como la posición de layout de todas es el
+          centro del stage, el navegador las pide cuando el stage se acerca
+          al viewport —durante MEZCLA— y llegan con cientos de svh de
+          ventaja sobre el momento en que entran en escena. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={piece.src}
+        alt={piece.alt}
+        className={styles.pieceImg}
+        draggable={false}
+        decoding="async"
+        loading="lazy"
+      />
+    </div>
+  );
+
+  const estilo = { "--z": piece.z } as CSSProperties;
+
+  /* Las láminas que son un caso entran a su caso. El elemento exterior pasa a
+     ser un <a> y no un <div> con onClick: así el navegador da gratis el foco
+     por teclado, el "abrir en pestaña nueva" del clic del medio, el menú
+     contextual y el anuncio del destino en un lector de pantalla.
+
+     Conserva data-piece y la clase .piece intactos: GSAP la selecciona por ese
+     atributo y le escribe la transform, así que la coreografía no se entera
+     del cambio. Lo único que se agrega es .pieceLink, que es señal visual y
+     nada más — ni una propiedad que GSAP esté animando.
+
+     El aria-label gana al alt: el alt describe lo que se ve, pero quien no ve
+     la lámina necesita saber a dónde lo lleva. */
+  if (piece.href) {
+    return (
+      <a
+        className={`${styles.piece} ${styles.pieceLink}`}
+        data-piece={piece.id}
+        style={estilo}
+        href={piece.href}
+        aria-label={piece.hrefLabel ?? piece.alt}
+      >
+        {media}
+      </a>
+    );
+  }
+
   return (
-    <div
-      className={styles.piece}
-      data-piece={piece.id}
-      style={{ "--z": piece.z } as CSSProperties}
-    >
-      <div className={styles.pieceMedia} data-piece-media={piece.id}>
-        {/* <img> y no next/image: se animan transform y escala sobre el
-            elemento y hace falta control directo. loading="lazy" y no eager:
-            son ocho archivos, y como la posición de layout de todas es el
-            centro del stage, el navegador las pide cuando el stage se acerca
-            al viewport —durante MEZCLA— y llegan con cientos de svh de
-            ventaja sobre el momento en que entran en escena. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={piece.src}
-          alt={piece.alt}
-          className={styles.pieceImg}
-          draggable={false}
-          decoding="async"
-          loading="lazy"
-        />
-      </div>
+    <div className={styles.piece} data-piece={piece.id} style={estilo}>
+      {media}
     </div>
   );
 }

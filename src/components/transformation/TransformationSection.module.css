@@ -144,6 +144,37 @@
   height: auto;
 }
 
+/* ------------------------- LÁMINA QUE ENTRA A UN CASO ---------------------- */
+/* Sólo la señal, nunca la trayectoria. La transform de .piece y la escala de
+   .pieceMedia las escribe GSAP en cada frame del scrub: animar cualquiera de
+   las dos desde un hover sería pelearse con la coreografía y perder. Por eso
+   el feedback son sombra y brillo, que no toca nadie más.
+
+   El filo de la lámina ya existe en .pieceMedia (1px a 7% de opacidad): en
+   hover ese mismo filo se vuelve naranja. No aparece un borde nuevo, cambia de
+   color el que estaba. */
+.pieceLink {
+  cursor: pointer;
+  /* en touch, el flash gris del navegador sobre una lámina a sangre se ve como
+     un error de render */
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pieceLink .pieceMedia {
+  transition:
+    box-shadow 0.35s ease,
+    filter 0.35s ease;
+}
+
+@media (hover: hover) {
+  .pieceLink:hover .pieceMedia {
+    box-shadow:
+      0 0 0 1px var(--orange),
+      0 36px 90px -26px rgba(0, 0, 0, 0.9);
+    filter: brightness(1.05);
+  }
+}
+
 .pieceLabel {
   position: absolute;
   left: 50%;
@@ -174,6 +205,12 @@
   left: var(--gutter);
   top: 34svh;
   z-index: 9;
+  /* Mide hasta 76vw por dos renglones de 140px y vive por encima del cluster.
+     Sus líneas arrancan en opacity:0, pero un elemento transparente igual se
+     come los clics: sin esto, la mitad del collage queda detrás de un titular
+     invisible y una lámina clicable no se podría tocar. No hay nada que
+     interactuar acá, así que la capa se vuelve atravesable. */
+  pointer-events: none;
   margin: 0;
   width: min(76vw, 1180px);
   color: var(--off);

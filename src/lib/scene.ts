@@ -115,8 +115,9 @@ export const MIX_DEMOTE = {
 
    1 IDENTIDAD     la más oscura. Va al fondo: se funde con el universo de
                    MEZCLA y sólo pierde su borde derecho.
-   2 DISTRIBUCIÓN  su identidad está en el titular verde de arriba y en la
-                   gente cruzando del medio; lo que se tapa es el pie.
+   2 DISTRIBUCIÓN  el caso de los mayoristas. Su peso está en el bloque de
+                   texto del centro —la cifra y la flecha—; lo único que cede
+                   es la nota al pie, que es una aclaración, no el dato.
    3 EQUIPO        las manos están al centro: pierde el borde inferior.
    4 ESTUDIO       el laptop con el +4 está abajo a la izquierda, así que lo
                    que cede es la esquina inferior derecha.
@@ -125,8 +126,10 @@ export const MIX_DEMOTE = {
                    Sólo cede su margen derecho.
    7 EXPERIENCIA   el magenta es el único acento cálido del collage y es chico:
                    va casi adelante para que su tipografía se lea entera.
-   8 DEMANDA       la más luminosa y la que lleva el +4 en pantalla. Adelante
-                   del todo: su logo no puede quedar cubierto.
+   8 DEMANDA       el caso de las consultas. Adelante del todo por dos razones:
+                   su titular cruza la lámina entera y la banda inferior lleva
+                   la flecha, que es la única señal de que se puede entrar.
+                   Tapada, esa señal desaparece.
    --------------------------------------------------------------------------- */
 
 export type TransformationTier = "dominant" | "medium" | "satellite";
@@ -146,6 +149,25 @@ export type TransformationPiece = {
   alt: string;
   /** Orden de apilado. 8 = adelante. */
   z: number;
+  /**
+   * Destino al que entra la lámina si se la toca.
+   *
+   * Sólo lo llevan las láminas que son un caso: una lámina de marca no lleva a
+   * ningún lado y tiene que seguir sin llevar a ningún lado — si todas fueran
+   * clicables, ninguna diría nada.
+   *
+   * Mientras está sin definir, la pieza se dibuja como siempre: un <div>
+   * inerte, sin cursor, sin foco y fuera del orden de tabulación. Ponerle una
+   * ruta acá es lo único que hace falta para activarla; no hay nada más que
+   * tocar. Ver components/transformation/TransformationPiece.
+   */
+  href?: string;
+  /**
+   * Qué se anuncia al entrar. Obligatorio junto con href: el alt describe la
+   * imagen, pero quien usa un lector de pantalla necesita saber a dónde va,
+   * no qué se ve. Ej.: "Ver el caso completo: de 1 a 20 clientes por mes".
+   */
+  hrefLabel?: string;
 };
 
 export const TRANSFORMATION_PIECES: TransformationPiece[] = [
@@ -161,9 +183,12 @@ export const TRANSFORMATION_PIECES: TransformationPiece[] = [
     id: "demanda",
     tier: "dominant",
     label: "Demanda",
-    src: "/transformation/transformation-demand.jpg",
-    alt: "Pieza de demanda: una computadora retro con el logo +4 en pantalla, en medio de un campo florecido.",
+    src: "/transformation/transformation-caso-consultas.jpg",
+    alt: "Caso: publicar no es lo mismo que vender. Contenido pensado para generar consultas.",
     z: 8,
+    /* ⚠️ FALTA EL DESTINO. Descomentar con la ruta del caso y queda activa:
+       href: "/casos/<slug>",
+       hrefLabel: "Ver el caso completo", */
   },
   {
     id: "estudio",
@@ -176,9 +201,12 @@ export const TRANSFORMATION_PIECES: TransformationPiece[] = [
     id: "distribucion",
     tier: "medium",
     label: "Distribución",
-    src: "/transformation/transformation-distribution.jpg",
-    alt: "Pieza de distribución: personas cruzando una avenida, capturadas en movimiento.",
+    src: "/transformation/transformation-caso-mayoristas.jpg",
+    alt: "Caso: de 1 cliente mayorista nuevo en seis meses a 20 clientes nuevos por mes.",
     z: 2,
+    /* ⚠️ FALTA EL DESTINO. Descomentar con la ruta del caso y queda activa:
+       href: "/casos/<slug>",
+       hrefLabel: "Ver el caso completo", */
   },
   {
     id: "identidad",
