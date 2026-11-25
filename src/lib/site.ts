@@ -89,12 +89,19 @@ export const CONNECTION_EDGES: Array<[string, string]> = [
  * Origen público del sitio.
  *
  * Sólo lo usa `metadataBase` para resolver a absolutas las URLs que Open Graph
- * y las social cards exigen absolutas. No se declara canonical en ningún lado:
- * este dominio es TEMPORAL y no queremos que quede fijado como la URL canónica.
+ * y las social cards exigen absolutas.
  *
- * ⚠️ Al conectar el dominio definitivo se cambia ACÁ y en ningún otro archivo.
+ * Es el dominio definitivo: mascuatrostudio.com está atado al proyecto y el
+ * apex redirige a www con un 308, así que la forma canónica es la de www.
+ *
+ * Hasta acá vivía el dominio provisorio de Vercel, y eso dejó un defecto en
+ * producción: las etiquetas og:image y twitter:image anunciaban un archivo en
+ * un dominio que ya no sirve el sitio y devolvía 404. Compartir el sitio por
+ * WhatsApp, Instagram o LinkedIn no mostraba ninguna imagen.
+ *
+ * ⚠️ Si el dominio vuelve a cambiar, se cambia ACÁ y en ningún otro archivo.
  */
-export const SITE_URL = "https://4-creative-studio.vercel.app";
+export const SITE_URL = "https://www.mascuatrostudio.com";
 
 /** Copy de metadata. Vive acá para no repetirse entre layout, OG y social. */
 export const SITE_NAME = "+4 Creative Studio";
