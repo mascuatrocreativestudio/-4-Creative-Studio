@@ -168,7 +168,20 @@ export type TransformationPiece = {
    * no qué se ve. Ej.: "Ver el caso completo: de 1 a 20 clientes por mes".
    */
   hrefLabel?: string;
+  /**
+   * La invitación visible, debajo del label. Es lo único que le avisa al
+   * visitante que esta lámina se puede abrir, y tiene que estar siempre a la
+   * vista: el hover no sirve para descubrir —hay que estar encima para verlo—
+   * y en teléfono directamente no existe.
+   *
+   * Por defecto "Ver el caso". Está acá y no fijo en el componente para poder
+   * cambiar la invitación sin tocar markup.
+   */
+  cta?: string;
 };
+
+/** Lo que dice la invitación cuando la pieza no define una propia. */
+export const CTA_PIEZA_POR_DEFECTO = "Ver el caso";
 
 export const TRANSFORMATION_PIECES: TransformationPiece[] = [
   {

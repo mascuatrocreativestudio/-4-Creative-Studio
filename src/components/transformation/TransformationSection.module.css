@@ -160,7 +160,14 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+/* El filo naranja es permanente, no de hover. Las otras seis láminas llevan un
+   filo blanco al 7%: con este, las dos que se abren se distinguen del resto de
+   un vistazo, antes de leer una sola palabra. Sigue siendo 1px — no aparece un
+   borde nuevo, cambia de color el que ya estaba. */
 .pieceLink .pieceMedia {
+  box-shadow:
+    0 0 0 1px rgba(255, 117, 36, 0.5),
+    0 30px 70px -26px rgba(0, 0, 0, 0.85);
   transition:
     box-shadow 0.35s ease,
     filter 0.35s ease;
@@ -180,6 +187,15 @@
   left: 50%;
   top: 50%;
   margin: 0;
+  /* Columna para poder sumarle la invitación debajo del nombre. La caja sigue
+     midiendo lo que mide su línea más larga, así que el xPercent:-50 que le
+     escribe GSAP la sigue centrando bajo su lámina. Y como la y de GSAP ancla
+     el BORDE SUPERIOR del label, la segunda línea crece hacia abajo: no se le
+     monta nunca a la lámina. */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5em;
   white-space: nowrap;
   font-family: var(--font-mono), monospace;
   /* V2.1: ~+55% sobre el tamaño anterior (clamp(10px, 0.78vw, 13px)). El label
@@ -194,6 +210,37 @@
      Una sombra y no una caja: mantiene la legibilidad sin ensuciar el collage. */
   text-shadow: 0 1px 8px rgba(9, 11, 16, 0.95);
   will-change: transform, opacity;
+}
+
+/* --------------------------- LA INVITACIÓN -------------------------------- */
+/* Lo único que le avisa al visitante que dos de las ocho láminas se abren.
+   Permanente y no en hover: el hover hay que descubrirlo estando encima, y en
+   teléfono no existe. Acá no se descubre nada, se lee.
+
+   Mismo recurso que el acceso a la FAQ en el cierre: texto en color pleno y
+   sólo la flecha en naranja. El sitio ya lo enseñó una vez antes de llegar
+   acá, y acá además es obligatorio: los labels se dibujan SOBRE su lámina
+   —por eso llevan sombra— y una línea naranja sobre el amarillo de una de las
+   dos láminas no se leía. El blanco con sombra se lee sobre cualquier cosa;
+   la flecha sola alcanza para avisar que hay a dónde ir. */
+
+.labelNombre {
+  display: block;
+}
+
+.labelCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  /* Relativo al label, que ya es fluido: no hay un segundo clamp que mantener
+     en sincronía con el primero. La jerarquía la da el tamaño, no el color. */
+  font-size: 0.7em;
+  letter-spacing: 0.18em;
+}
+
+.labelFlecha {
+  font-style: normal;
+  color: var(--orange);
 }
 
 /* ---------------------------------- PAYOFF --------------------------------- */

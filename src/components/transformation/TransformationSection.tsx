@@ -13,6 +13,7 @@ import {
   MIX_DEMOTE,
   MIX_WORD_END,
   TRANSFORMATION_PIECES,
+  CTA_PIEZA_POR_DEFECTO,
 } from "@/lib/scene";
 import GradientField from "@/components/hero/GradientField";
 import BrandMark from "@/components/hero/BrandMark";
@@ -569,11 +570,27 @@ export default function TransformationSection() {
 
         {/* Los labels, encima de las ocho. Sólo los llevan las dominantes y las
             medianas: los satélites callan, y ese silencio es parte de la
-            jerarquía. aria-hidden porque el alt de cada lámina ya la nombra. */}
+            jerarquía. aria-hidden porque el alt de cada lámina ya la nombra.
+
+            Las que llevan a un caso suman una segunda línea con la invitación.
+            Va acá y no sobre la lámina por dos razones: esta capa ya comparte
+            la transform del cluster —así que viaja pegada a su pieza sin un
+            tween nuevo— y es la única que nunca queda tapada por otra lámina,
+            que es justo lo que no le puede pasar a la señal de que algo se
+            puede abrir. */}
         <div className={styles.labels} data-labels aria-hidden="true">
           {LABELLED.map((piece) => (
             <p key={piece.id} className={styles.pieceLabel} data-piece-label={piece.id}>
-              [{piece.label}]
+              <span className={styles.labelNombre}>[{piece.label}]</span>
+
+              {piece.href ? (
+                <span className={styles.labelCta}>
+                  {piece.cta ?? CTA_PIEZA_POR_DEFECTO}
+                  <i className={styles.labelFlecha} aria-hidden="true">
+                    →
+                  </i>
+                </span>
+              ) : null}
             </p>
           ))}
         </div>
